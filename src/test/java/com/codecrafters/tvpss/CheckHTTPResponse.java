@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CheckHTTPResponse {
     @LocalServerPort
     private int port;
-    
+
     @Autowired
     private TestRestTemplate testRestTemplate;
 
