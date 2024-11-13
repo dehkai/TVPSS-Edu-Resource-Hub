@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Request Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+<div class="flex justify-center items-center h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl">
+        <div class="flex flex-col md:flex-row">
+            <!-- Header and Description section -->
+            <div class="md:w-1/3 mb-6 md:mb-0">
+                <h2 class="text-3xl font-bold mb-4">Resource Request Application</h2>
+                <p class="text-gray-600">
+                    Please complete the form to request the resources you need. Ensure all required fields are filled out
+                    accurately. Once submitted, your request will be reviewed, and you will be notified of the decision.
+                </p>
+            </div>
+
+            <!-- Form section -->
+            <div class="md:w-2/3 md:pl-6">
+                <form th:action="@{/submitRequest}" th:object="${resourceRequest}" method="post">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-600 mb-1">School's Name</label>
+                            <input type="text" th:field="*{schoolName}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-1">School's Code</label>
+                            <input type="text" th:field="*{schoolCode}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="block text-gray-600 mb-1">Type of Resource</label>
+                            <input type="text" th:field="*{resourceType}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-1">Quantity Required</label>
+                            <input type="number" th:field="*{quantity}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-600 mb-1">Description</label>
+                        <textarea th:field="*{description}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-600 mb-1">Justification</label>
+                        <textarea th:field="*{justification}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-600 mb-1">Select a Date</label>
+                        <input type="date" th:field="*{dateNeeded}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-600 mb-1">Priority</label>
+                        <select th:field="*{priority}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
+                            <option value="">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-gray-600 mb-1">Additional Comment</label>
+                        <textarea th:field="*{additionalComment}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
