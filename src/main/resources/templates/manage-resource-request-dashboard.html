@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Resource Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto my-8">
+    <h1 class="text-3xl font-bold mb-4">Manage Resource Requests</h1>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div th:if="${#lists.isEmpty(requests)}" class="p-4 text-gray-500">
+            No pending requests found.
+        </div>
+        <table th:if="${not #lists.isEmpty(requests)}" class="min-w-full">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Type</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr th:each="request : ${requests}">
+                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.id}">ID</td>
+                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.schoolName}">School Name</td>
+                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.resourceType}">Resource Type</td>
+                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.quantity}">Quantity</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                            <span th:text="${request.status}"
+                                  th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                           (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
+                                           'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
+                                Status
+                            </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex space-x-2">
+                        <form th:action="@{${request.id}+'/approve'}" method="POST" style="display: inline;">
+                            <button type="submit"
+                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                                Approve
+                            </button>
+                        </form>
+                        <form th:action="@{${request.id}+'/reject'}" method="POST" style="display: inline;">
+                            <button type="submit"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                                Reject
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
