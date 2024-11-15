@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidates Listing</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+
+<!-- Page Title -->
+<h1 class="text-4xl font-bold text-center mb-8">Candidates Listing</h1>
+
+<!-- Search and Filters Section -->
+<div class="bg-white p-6 shadow-lg rounded-lg mb-8">
+  <div class="flex flex-col lg:flex-row items-center lg:justify-between space-y-4 lg:space-y-0">
+    <!-- Search Bar -->
+    <input type="text" placeholder="Search something..." class="border-b-2 border-gray-300 outline-none py-2 px-4 w-full lg:w-1/3 text-purple-600 focus:border-purple-600" />
+
+    <!-- Filters -->
+    <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full lg:w-auto">
+      <select class="border-b-2 border-gray-300 outline-none py-2 px-4 text-gray-500 w-full lg:w-auto">
+        <option value="">Select Job Type</option>
+        <option value="low">All</option>
+        <option value="medium">Graphic Designer</option>
+        <option value="high">IT Specialist</option>
+        <option value="high">Program Coordinator</option>
+        <option value="high">Social Media Manager</option>
+      </select>
+      <select class="border-b-2 border-gray-300 outline-none py-2 px-4 text-gray-500 w-full lg:w-auto">
+        <option>Select Type of employment</option>
+        <option value="low">All</option>
+        <option value="medium">Contractual</option>
+        <option value="high">Full Time</option>
+        <option value="high">Part Time</option>
+      </select>
+      <select class="border-b-2 border-gray-300 outline-none py-2 px-4 text-gray-500 w-full lg:w-auto">
+        <option>Select Consideration</option>
+        <option value="low">All</option>
+        <option value="medium">disqualified</option>
+        <option value="high">qualified</option>
+      </select>
+    </div>
+
+    <!-- Search Button -->
+    <button class="bg-purple-600 text-white py-2 px-6 rounded-md hover:bg-purple-700 transition duration-200 w-full lg:w-auto">Search</button>
+  </div>
+</div>
+
+<!-- Candidates Count -->
+<div class="text-center mb-6">
+  <p class="text-gray-700 font-semibold">Number of candidates found: <span id="candidate-count" class="text-purple-600 font-bold"></span></p>
+</div>
+
+<!-- Candidate Cards Section -->
+<div id="candidate-cards" class="space-y-6"></div>
+
+<!-- JavaScript to Insert Dummy Data -->
+<script>
+  // Define dummy candidate data
+  const candidates = [
+    { id: 1, name: 'Fidaus', location: 'Kuala Lumpur, Malaysia' },
+    { id: 2, name: 'Gahamid', location: 'Subang, Subang Regency, Jawa Barat, Indonesia' },
+    { id: 3, name: 'Aisha', location: 'Singapore' },
+    { id: 4, name: 'Mikhail', location: 'Manila, Philippines' },
+    { id: 5, name: 'Nurul', location: 'Jakarta, Indonesia' },
+  ];
+
+  // Display candidate count
+  document.getElementById('candidate-count').textContent = candidates.length;
+
+  // Render candidate cards
+  const candidateCardsContainer = document.getElementById('candidate-cards');
+  candidates.forEach(candidate => {
+    const card = document.createElement('div');
+    card.className = 'bg-gray-200 rounded-lg p-6 flex justify-between items-center';
+
+    card.innerHTML = `
+      <div>
+        <h2 class="text-2xl font-semibold text-purple-600">${candidate.name}</h2>
+        <p class="text-gray-600">${candidate.location}</p>
+      </div>
+      <a href="/candidate-profile" class="border border-purple-600 text-purple-600 font-semibold py-2 px-4 rounded-md hover:bg-purple-600 hover:text-white transition duration-200">View Details</a>
+    `;
+
+    candidateCardsContainer.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
