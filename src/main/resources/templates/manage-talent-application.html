@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidates</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Additional custom styles */
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .header {
+      background-color: #000;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+<div class="bg-white p-8 shadow-lg rounded-lg w-4/5">
+  <h1 class="text-4xl font-bold text-gray-800 mb-6">Candidates</h1>
+
+  <!-- Table -->
+  <div class="table-container border">
+    <table class="w-full text-left">
+      <thead class="header">
+      <tr>
+        <th class="px-4 py-2">Applicant Name</th>
+        <th class="px-4 py-2">Profile</th>
+        <th class="px-4 py-2">Age</th>
+        <th class="px-4 py-2">Skills</th>
+        <th class="px-4 py-2">Status</th>
+        <th class="px-4 py-2">Feedback</th>
+        <th class="px-4 py-2">Notes</th>
+        <th class="px-4 py-2">Consideration</th>
+      </tr>
+      </thead>
+      <tbody id="candidate-table">
+      <!-- Dynamic rows will be inserted here by JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Update Button -->
+  <div class="flex justify-end mt-4">
+    <a href="/talent-form" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">Update</a>
+  </div>
+</div>
+
+<script>
+  // Dummy data array
+  const candidateData = [
+    { name: 'Jessie Lau', profile: 'https://via.placeholder.com/50', age: 20, skills: 'solving problem', status: 'Under Review', feedback: 'ok', notes: 'good', consideration: 'qualified' },
+    { name: 'Gahamid', profile: 'https://via.placeholder.com/50', age: 25, skills: 'Digital Marketing, Creativity, Engagement', status: 'Interview Scheduled', feedback: 'Please contact us', notes: 'Creative portfolio', consideration: 'qualified' },
+    { name: 'Jessie Lau', profile: 'https://via.placeholder.com/50', age: 28, skills: 'Project Management, Problem Solving', status: 'Approved', feedback: 'welcome aboard', notes: 'Strong leadership, effective organizer.', consideration: 'qualified' },
+    { name: 'Hui Qian', profile: 'https://via.placeholder.com/50', age: 27, skills: 'Technical Proficiency, Troubleshooting, Networking', status: 'Approved', feedback: 'Impressive skills', notes: 'Strong technical skills.', consideration: 'qualified' },
+    { name: 'Fidaus', profile: 'https://via.placeholder.com/50', age: 20, skills: 'Leadership, Organizational, Communication', status: 'Rejected', feedback: 'Great potential', notes: 'Good, but needs improvement.', consideration: 'disqualified' },
+    { name: 'Ahmad Muhammad', profile: 'https://via.placeholder.com/50', age: 21, skills: 'Social Media Savvy, Content Creation, Analytical', status: 'Interview Scheduled', feedback: 'Please contact us', notes: 'Proficient, creative content creator.', consideration: 'disqualified' },
+    { name: 'Shalira', profile: 'https://via.placeholder.com/50', age: 21, skills: 'Graphic Design, Artistic Talent, Attention to Detail', status: 'Under Review', feedback: 'Strong design skills and potential', notes: 'Talented, detailed designs.', consideration: 'qualified' }
+  ];
+
+  // Select the table body element
+  const tableBody = document.querySelector('#candidate-table');
+
+  // Loop through the dummy data and create rows dynamically
+  candidateData.forEach((candidate) => {
+    const row = document.createElement('tr');
+    row.classList.add('bg-gray-100', 'hover:bg-gray-200');
+
+    // Create table cells and populate them with the data
+    row.innerHTML = `
+        <td class="px-4 py-2">${candidate.name}</td>
+        <td class="px-4 py-2"><img src="${candidate.profile}" alt="${candidate.name}" class="w-12 h-12 rounded-full"></td>
+        <td class="px-4 py-2">${candidate.age}</td>
+        <td class="px-4 py-2">${candidate.skills}</td>
+        <td class="px-4 py-2">${candidate.status}</td>
+        <td class="px-4 py-2">${candidate.feedback}</td>
+        <td class="px-4 py-2">${candidate.notes}</td>
+        <td class="px-4 py-2">${candidate.consideration}</td>
+      `;
+
+    // Append the row to the table body
+    tableBody.appendChild(row);
+  });
+</script>
+
+</body>
+</html>
