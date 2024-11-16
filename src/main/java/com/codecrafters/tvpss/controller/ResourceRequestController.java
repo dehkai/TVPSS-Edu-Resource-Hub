@@ -39,14 +39,14 @@ public class ResourceRequestController {
 
     @PostMapping("/manage/{id}/approve")  // Updated path
     @ResponseBody
-    public String approveRequest(@PathVariable Long id) {
+    public String approveRequest(@PathVariable String id) {
         resourceRequestService.approveRequest(id);
         return "Request approved";
     }
 
     @PostMapping("/manage/{id}/reject")  // Updated path
     @ResponseBody
-    public String rejectRequest(@PathVariable Long id) {
+    public String rejectRequest(@PathVariable String id) {
         resourceRequestService.rejectRequest(id);
         return "Request rejected";
     }
