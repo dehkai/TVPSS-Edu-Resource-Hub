@@ -1,50 +1,51 @@
 package com.codecrafters.tvpss.service;
 
 import com.codecrafters.tvpss.model.ResourceRequestModel;
-import jakarta.annotation.PostConstruct;
+import com.codecrafters.tvpss.repository.ResourceRequestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ResourceRequestService {
-    private final List<ResourceRequestModel> resourceRequests = new ArrayList<>();
+
+    @Autowired
+    private ResourceRequestRepository repository;
 
     public List<ResourceRequestModel> getPendingRequests() {
-        // Filter requests with status "pending"
-        return resourceRequests.stream()
-                .filter(request -> "pending".equals(request.getStatus()))
+        return repository.findAll().stream()
+                .filter(request -> "pending".equalsIgnoreCase(request.getStatus()))
                 .toList();
     }
 
-    public void approveRequest(Long id) {
-        resourceRequests.stream()
-                .filter(request -> request.getId().equals(id))
-                .findFirst()
-                .ifPresent(request -> request.setStatus("approved"));
+    public void approveRequest(String id) {
+        repository.findById(id).ifPresent(request -> {
+            request.setStatus("approved");
+            repository.save(request);
+        });
     }
 
-    public void rejectRequest(Long id) {
-        resourceRequests.stream()
-                .filter(request -> request.getId().equals(id))
-                .findFirst()
-                .ifPresent(request -> request.setStatus("rejected"));
+    public void rejectRequest(String id) {
+        repository.findById(id).ifPresent(request -> {
+            request.setStatus("rejected");
+            repository.save(request);
+        });
     }
 
-    // Method to add a new request (for testing purposes)
-    public void addRequest(ResourceRequestModel request) {
-        resourceRequests.add(request);
+    public ResourceRequestModel addRequest(ResourceRequestModel request) {
+        return repository.save(request);
     }
-    @PostConstruct
-    public void init() {
 
-        ResourceRequestModel testRequest = new ResourceRequestModel();
-        testRequest.setId(1L);
-        testRequest.setSchoolName("Test School");
-        testRequest.setResourceType("Books");
-        testRequest.setQuantity(10);
-        testRequest.setStatus("pending");
-        addRequest(testRequest);
+    public ResourceRequestModel getRequestById(String id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public void deleteRequest(String id) {
+        repository.deleteById(id);
+    }
+
+    public List<ResourceRequestModel> getAllRequests() {
+        return repository.findAll();
     }
 }
