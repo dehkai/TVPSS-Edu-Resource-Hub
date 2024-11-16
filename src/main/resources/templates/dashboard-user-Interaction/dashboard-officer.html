@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Officer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-green-600 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <!-- Left Side: Dashboard Title -->
+            <div class="flex items-center space-x-4">
+                <span class="text-2xl font-bold">Dashboard</span>
+            </div>
+
+            <!-- Right Side: Icons and Profile -->
+            <div class="flex items-center space-x-6">
+                    <!-- Badge -->
+                    <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full px-1.5 py-0.5">3+</span>
+                </div>
+
+                <!-- Profile Icon with Name and Role -->
+                <div class="flex items-center space-x-2">
+                    <button class="text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12,22a2,2,0,0,0,2-2H10A2,2,0,0,0,12,22Zm6-6V9c0-3.07-1.64-5.64-4.5-6.32V2a1.5,1.5,0,0,0-3,0V2.68C7.63,3.36,6,5.92,6,9v7l-2,2V20H20V18Z"/>
+                        </svg>
+                    </button>
+
+                    <img src="/path/to/profile-picture.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                    <div class="text-sm">
+                        <span class="font-medium">Daniel kock</span>
+                        <p class="text-xs underline">Officer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto mt-6 space-y-8">
+
+        <!-- Hero Section -->
+        <div class="bg-white p-8 rounded-lg shadow-lg flex items-center justify-between">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">School Programs' Status Form</h2>
+                <p class="text-gray-600 mt-2">You can submit your data here.</p>
+                <button class="mt-4 px-4 py-2 bg-green-500 hover:bg-purple-800 text-white rounded-lg">Submit</button>
+            </div>
+            <div>
+                <img src="/path/to/hero-image.jpg" alt="Hero Image" class="w-40 h-40 rounded-lg">
+            </div>
+        </div>
+
+        <!-- Recommended candidates Section -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800">Recommended candidates</h3>
+                <a href="#" class="text-blue-600">View All</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div th:each="interviewer : ${topInterviewers}" class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img th:src="@{${interviewer.imageUrl}}" alt="Interviewer" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold" th:text="${interviewer.name}">Wade Warren</p>
+                    <p class="text-gray-500 text-sm" th:text="${interviewer.role}">Videographer</p>
+                    <p class="text-yellow-400 mt-1" th:text="${interviewer.rating}">4.9</p>
+                </div>
+    
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img src="/path/to/candidate.jpg" alt="Interviewer" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold">Juan Hamil</p>
+                    <p class="text-gray-500 text-sm">Designer</p>
+                    <p class="text-yellow-400 mt-1">4.8</p>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img src="/path/to/candidate2.jpg" alt="Interviewer 2" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold">Allison Butz</p>
+                    <p class="text-gray-500 text-sm">Production Assistant</p>
+                    <p class="text-yellow-400 mt-1">4.7</p>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img src="/path/to/candidate3.jpg" alt="Interviewer 3" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold">Jeanette Jr.</p>
+                    <p class="text-gray-500 text-sm">Project Manager</p>
+                    <p class="text-yellow-400 mt-1">4.8</p>
+
+                </div><div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img src="/path/to/candidate4.jpg" alt="Interviewer 2" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold">Raman Lowe</p>
+                    <p class="text-gray-500 text-sm">Camera Operator</p>
+                    <p class="text-yellow-400 mt-1">4.7</p>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <img src="/path/to/cadidate5.jpg" alt="Interviewer 3" class="w-16 h-16 rounded-full mx-auto">
+                    <p class="mt-2 font-semibold">John Smith</p>
+                    <p class="text-gray-500 text-sm">Project Manager</p>
+                    <p class="text-yellow-400 mt-1">4.8</p>
+                </div>
+            </div>
+        </section>
+            <!-- Validation report Section -->
+            <section>
+                        <!-- Container for the content -->
+                <div class="bg-white p-4 rounded-lg shadow-lg ">
+                    <!-- Header Section -->
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Validation report</h3>
+                        <a href="#" class="text-blue-600">View All</a>
+                    </div>
+                    <!-- Description Text -->
+                    <p class="text-gray-600">Review program statuses, resource requests, and other key metrics efficiently.</p>
+                    <!-- Image Section -->
+                    <img src="/path/to/your/image.jpg" alt="Validation " class="w-full mt-4" style="height: 250px; object-fit: cover;">
+                    <!-- Button Section -->
+                    <div class="text-center mt-4">
+                        <form action="view-validation.html" method="POST">
+                            <button class="bg-green-500 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
+                                Validate
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+         <!-- Update/Edit information Section -->
+         <section>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-800">Update / Edit information</h3>
+                <a href="#" class="text-blue-600">View All</a>
+            </div>
+            <!-- Horizontal Scroll Container -->
+            <div class="flex overflow-x-auto space-x-4 p-4">
+                <!-- Each Event Card -->
+                <div class="w-full max-w-md p-6 rounded-xl bg-gradient-to-br from-green-500 to-purple-300 border-2 border-purple-600 shadow-xl">
+                    <h2 class="text-xl font-semibold text-white">Program's status form</h2>
+                    <div class="mt-4">
+                        <button class="bg-green-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
+                            Add / Delete
+                        </button>
+                    </div>
+                </div>
+             <!-- Additional event cards as needed -->
+                <div class="w-full max-w-md p-6 rounded-xl bg-gradient-to-br from-green-500 to-purple-300 border-2 border-purple-600 shadow-xl">
+                    <h2 class="text-xl font-semibold text-white">Resource request</h2>
+                    <div class="mt-4">
+                        <button class="bg-green-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
+                            Manage
+                        </button>
+                    </div>
+                </div>      
+    </section>
+
+
+<!-- Daily Notice Section -->
+<section>
+    <h3 class="text-2xl font-bold text-gray-800 mb-4">Daily Notice</h3>
+    <div class="space-y-4">
+        <!-- Candidate Application Status Notice -->
+        <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h4 class="font-semibold text-gray-800">Candidate Application Updates</h4>
+            <p class="text-gray-600 mt-1">Latest updates on candidate applications are now available. Check the status to ensure timely processing.</p>
+            <a href="#" class="text-green-600 mt-2 inline-block">View Applications</a>
+        </div>
+        <!-- Events and Activities Updates Notice -->
+        <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h4 class="font-semibold text-gray-800">Events & Activities Updates</h4>
+            <p class="text-gray-600 mt-1">Stay updated with the latest schedules and changes to our upcoming events and activities.</p>
+            <a href="#" class="text-green-600 mt-2 inline-block">Check Updates</a>
+        </div>
+    </div>
+</section>
+
+
+    </div>
+</body>
+</html>
