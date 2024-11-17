@@ -1,38 +1,29 @@
 package com.codecrafters.tvpss.service;
 
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import com.codecrafters.tvpss.model.Dashboard;
+
+import java.util.Arrays;  // Import Arrays if using Arrays.asList() for example data
 
 @Service
 public class DashboardService {
 
-    public DashboardData getDashboardDataForRole(String role) {
-        DashboardData dashboardData = new DashboardData();
-
-        switch (role) {
-            case "Student":
-                dashboardData.setTopInterviewers(fetchTopInterviewers());
-                dashboardData.setEvents(fetchEvents());
-                dashboardData.setEnrolledCourses(fetchEnrolledCourses());
-                break;
-            case "Officer":
-                dashboardData.setRecommendedCandidates(fetchRecommendedCandidates());
-                dashboardData.setValidationReports(fetchValidationReports());
-                break;
-            case "Admin":
-                dashboardData.setRecommendedCandidates(fetchRecommendedCandidates());
-                dashboardData.setInterviews(fetchInterviews());
-                dashboardData.setApplications(fetchApplications());
-                break;
-        }
-
-        return dashboardData;
+    // Example method to fetch admin dashboard data
+    public Dashboard getAdminDashboard() {
+        // Assume fetching some data relevant to admin operations
+        return new Dashboard("admin", Arrays.asList("Report 1", "Report 2"));
     }
 
-    private List<User> fetchTopInterviewers() { /*...*/ }
-    private List<Event> fetchEvents() { /*...*/ }
-    private List<Course> fetchEnrolledCourses() { /*...*/ }
-    private List<ValidationReport> fetchValidationReports() { /*...*/ }
-    private List<Interview> fetchInterviews() { /*...*/ }
-    private List<Application> fetchApplications() { /*...*/ }
+    // Example method to fetch officer dashboard data
+    public Dashboard getOfficerDashboard() {
+        // Assume fetching data relevant to officer operations
+        return new Dashboard("officer", Arrays.asList("Task 1", "Task 2"));
+    }
+
+    // Example method to fetch student dashboard data
+    public Dashboard getStudentDashboard() {
+        // Assume fetching data relevant to student activities
+        return new Dashboard("student", Arrays.asList("Course 1", "Course 2"));
+    }
 }
