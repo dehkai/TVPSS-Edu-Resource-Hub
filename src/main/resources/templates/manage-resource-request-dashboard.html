@@ -18,34 +18,90 @@
             <thead class="bg-gray-50">
             <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Type</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Info</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Details</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timeline</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
             <tr th:each="request : ${requests}">
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.id}">ID</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.schoolName}">School Name</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.resourceType}">Resource Type</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.quantity}">Quantity</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                            <span th:text="${request.status}"
-                                  th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
-                                           (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
-                                           'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
-                                Status
-                            </span>
+                <td class="px-6 py-4 whitespace-nowrap text-sm" th:text="${request.id}">ID</td>
+                
+                <!-- School Information Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="font-medium text-gray-900" th:text="${request.schoolName}">School Name</div>
+                        <div class="text-gray-500" th:text="${request.schoolCode}">School Code</div>
+                    </div>
                 </td>
+                
+                <!-- Resource Details Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="font-medium text-gray-900">
+                            <span th:text="${request.resourceType}">Resource Type</span>
+                            <span class="text-gray-500">(<span th:text="${request.quantity}"></span> units)</span>
+                        </div>
+                        <div class="text-gray-500 text-xs mt-1" th:text="${request.description}">Description</div>
+                        <div class="text-gray-600 text-xs mt-1">
+                            <span class="font-medium">Justification:</span>
+                            <span th:text="${request.justification}"></span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Timeline Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="text-gray-900">
+                            <span class="font-medium">Needed by:</span>
+                            <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}"></span>
+                        </div>
+                        <div class="text-gray-500 text-xs">
+                            <span class="font-medium">Submitted:</span>
+                            <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}"></span>
+                        </div>
+                        <div class="mt-1">
+                            <span th:class="${request.priority == 'High' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800' : 
+                                           (request.priority == 'Medium' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
+                                           'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800')}"
+                                  th:text="${request.priority}">
+                                Priority
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Status Column -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span th:text="${request.status}"
+                          th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                   (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
+                                   'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
+                        Status
+                    </span>
+                    <div class="text-xs text-gray-500 mt-1" th:if="${request.status != 'pending'}">
+                        <div th:if="${request.status == 'approved'}">
+                            Approved Qty: <span th:text="${request.approvedQuantity}"></span>
+                        </div>
+                        <div th:if="${request.feedback}" class="mt-1">
+                            <span th:text="${request.feedback}"></span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Actions Column -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div class="flex space-x-2">
-                        <button onclick="openModal('approveModal', '[[${request.id}]]')"
+                        <button th:if="${request.status == 'pending'}" 
+                                onclick="openModal('approveModal', '[[${request.id}]]')"
                                 class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
                             Approve
                         </button>
-                        <button onclick="openModal('rejectModal', '[[${request.id}]]')"
+                        <button th:if="${request.status == 'pending'}" 
+                                onclick="openModal('rejectModal', '[[${request.id}]]')"
                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
                             Reject
                         </button>
