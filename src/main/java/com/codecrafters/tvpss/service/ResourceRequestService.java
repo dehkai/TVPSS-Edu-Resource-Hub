@@ -19,18 +19,21 @@ public class ResourceRequestService {
                 .toList();
     }
 
-    public void approveRequest(String id) {
-        repository.findById(id).ifPresent(request -> {
-            request.setStatus("approved");
-            repository.save(request);
-        });
+    public void approveRequest(String id, int approvedQuantity, String feedback) {
+        ResourceRequestModel request = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+        request.setStatus("approved");
+        request.setApprovedQuantity(approvedQuantity);
+        request.setFeedback(feedback);
+        repository.save(request);
     }
-
-    public void rejectRequest(String id) {
-        repository.findById(id).ifPresent(request -> {
-            request.setStatus("rejected");
-            repository.save(request);
-        });
+    
+    public void rejectRequest(String id, String feedback) {
+        ResourceRequestModel request = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+        request.setStatus("rejected");
+        request.setFeedback(feedback);
+        repository.save(request);
     }
 
     public ResourceRequestModel addRequest(ResourceRequestModel request) {
