@@ -1,7 +1,7 @@
 package com.codecrafters.tvpss.service;
 
 import com.codecrafters.tvpss.model.ResourceRequestModel;
-import com.codecrafters.tvpss.repository.ResourceRequestRepository;
+import com.codecrafters.tvpss.dao.ResourceRequestDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,44 +11,41 @@ import java.util.List;
 public class ResourceRequestService {
 
     @Autowired
-    private ResourceRequestRepository repository;
+    private ResourceRequestDao resourceRequestDao;
 
     public List<ResourceRequestModel> getPendingRequests() {
-        return repository.findAll().stream()
-                .filter(request -> "pending".equalsIgnoreCase(request.getStatus()))
-                .toList();
+        return resourceRequestDao.findByStatus("pending");
     }
 
     public void approveRequest(String id, int approvedQuantity, String feedback) {
-        ResourceRequestModel request = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
+        ResourceRequestModel request = resourceRequestDao.findById(Long.parseLong(id));
         request.setStatus("approved");
         request.setApprovedQuantity(approvedQuantity);
         request.setFeedback(feedback);
-        repository.save(request);
+        resourceRequestDao.update(request);
     }
     
     public void rejectRequest(String id, String feedback) {
-        ResourceRequestModel request = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Request not found"));
+        ResourceRequestModel request = resourceRequestDao.findById(Long.parseLong(id));
         request.setStatus("rejected");
         request.setFeedback(feedback);
-        repository.save(request);
+        resourceRequestDao.update(request);
     }
 
     public ResourceRequestModel addRequest(ResourceRequestModel request) {
-        return repository.save(request);
+        resourceRequestDao.save(request);
+        return request;
     }
 
     public ResourceRequestModel getRequestById(String id) {
-        return repository.findById(id).orElse(null);
+        return resourceRequestDao.findById(Long.parseLong(id));
     }
 
     public void deleteRequest(String id) {
-        repository.deleteById(id);
+        resourceRequestDao.delete(Long.parseLong(id));
     }
 
     public List<ResourceRequestModel> getAllRequests() {
-        return repository.findAll();
+        return resourceRequestDao.findAll();
     }
 }
