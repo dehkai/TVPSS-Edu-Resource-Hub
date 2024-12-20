@@ -18,41 +18,93 @@
             <thead class="bg-gray-50">
             <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Type</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Info</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Details</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timeline</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
             <tr th:each="request : ${requests}">
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.id}">ID</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.schoolName}">School Name</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.resourceType}">Resource Type</td>
-                <td class="px-6 py-4 whitespace-nowrap" th:text="${request.quantity}">Quantity</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                            <span th:text="${request.status}"
-                                  th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
-                                           (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
-                                           'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
-                                Status
-                            </span>
+                <td class="px-6 py-4 whitespace-nowrap text-sm" th:text="${request.id}">ID</td>
+                
+                <!-- School Information Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="font-medium text-gray-900" th:text="${request.schoolName}">School Name</div>
+                        <div class="text-gray-500" th:text="${request.schoolCode}">School Code</div>
+                    </div>
                 </td>
+                
+                <!-- Resource Details Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="font-medium text-gray-900">
+                            <span th:text="${request.resourceType}">Resource Type</span>
+                            <span class="text-gray-500">(<span th:text="${request.quantity}"></span> units)</span>
+                        </div>
+                        <div class="text-gray-500 text-xs mt-1" th:text="${request.description}">Description</div>
+                        <div class="text-gray-600 text-xs mt-1">
+                            <span class="font-medium">Justification:</span>
+                            <span th:text="${request.justification}"></span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Timeline Column -->
+                <td class="px-6 py-4">
+                    <div class="text-sm">
+                        <div class="text-gray-900">
+                            <span class="font-medium">Needed by:</span>
+                            <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}"></span>
+                        </div>
+                        <div class="text-gray-500 text-xs">
+                            <span class="font-medium">Submitted:</span>
+                            <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}"></span>
+                        </div>
+                        <div class="mt-1">
+                            <span th:class="${request.priority == 'High' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800' : 
+                                           (request.priority == 'Medium' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
+                                           'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800')}"
+                                  th:text="${request.priority}">
+                                Priority
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Status Column -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span th:text="${request.status}"
+                          th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                   (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
+                                   'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
+                        Status
+                    </span>
+                    <div class="text-xs text-gray-500 mt-1" th:if="${request.status != 'pending'}">
+                        <div th:if="${request.status == 'approved'}">
+                            Approved Qty: <span th:text="${request.approvedQuantity}"></span>
+                        </div>
+                        <div th:if="${request.feedback}" class="mt-1">
+                            <span th:text="${request.feedback}"></span>
+                        </div>
+                    </div>
+                </td>
+                
+                <!-- Actions Column -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div class="flex space-x-2">
-                        <form th:action="@{${request.id}+'/approve'}" method="POST" style="display: inline;">
-                            <button type="submit"
-                                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
-                                Approve
-                            </button>
-                        </form>
-                        <form th:action="@{${request.id}+'/reject'}" method="POST" style="display: inline;">
-                            <button type="submit"
-                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
-                                Reject
-                            </button>
-                        </form>
+                        <button th:if="${request.status == 'pending'}" 
+                                onclick="openModal('approveModal', '[[${request.id}]]')"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                            Approve
+                        </button>
+                        <button th:if="${request.status == 'pending'}" 
+                                onclick="openModal('rejectModal', '[[${request.id}]]')"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                            Reject
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -60,5 +112,111 @@
         </table>
     </div>
 </div>
+
+<!-- Approve Modal -->
+<div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Approve Request</h3>
+            <div class="mt-2 px-7 py-3">
+                <form id="approveForm" class="space-y-4">
+                    <input type="hidden" id="approveRequestId" name="requestId">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Approved Quantity</label>
+                        <input type="number" id="approvedQuantity" name="approvedQuantity" 
+                               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Feedback</label>
+                        <textarea id="approveFeedback" name="feedback" rows="3" 
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('approveModal')"
+                                class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancel</button>
+                        <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded-md">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Reject Request</h3>
+            <div class="mt-2 px-7 py-3">
+                <form id="rejectForm" class="space-y-4">
+                    <input type="hidden" id="rejectRequestId" name="requestId">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Reason for Rejection</label>
+                        <textarea id="rejectFeedback" name="feedback" rows="3" 
+                                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('rejectModal')"
+                                class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancel</button>
+                        <button type="submit"
+                                class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openModal(modalId, requestId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.getElementById(modalId === 'approveModal' ? 'approveRequestId' : 'rejectRequestId').value = requestId;
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+document.getElementById('approveForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const requestId = document.getElementById('approveRequestId').value;
+    const approvedQuantity = document.getElementById('approvedQuantity').value;
+    const feedback = document.getElementById('approveFeedback').value;
+    
+    fetch(`/manage/${requestId}/approve`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            approvedQuantity: approvedQuantity,
+            feedback: feedback
+        })
+    }).then(() => {
+        closeModal('approveModal');
+        location.reload();
+    });
+});
+
+document.getElementById('rejectForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const requestId = document.getElementById('rejectRequestId').value;
+    const feedback = document.getElementById('rejectFeedback').value;
+    
+    fetch(`/manage/${requestId}/reject`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            feedback: feedback
+        })
+    }).then(() => {
+        closeModal('rejectModal');
+        location.reload();
+    });
+});
+</script>
 </body>
 </html>
