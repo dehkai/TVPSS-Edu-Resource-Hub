@@ -26,13 +26,13 @@ public class ResourceRequestController {
     @GetMapping("/resource-request")
     public String showForm(Model model) {
         model.addAttribute("resourceRequest", new ResourceRequestModel());
-        return "resource-request-form";
+        return "resource-request/resource-request-form";
     }
 
     @PostMapping("/submitRequest")
     public String submitForm(ResourceRequestModel request, Model model) {
         model.addAttribute("message", "Request submitted successfully!");
-        return "resource-request-submit-successful";
+        return "resource-request/resource-request-submit-successful";
     }
 
     @GetMapping("/manage")
@@ -51,7 +51,7 @@ public class ResourceRequestController {
             model.addAttribute("requests", resourceRequestService.findByStatus(status.toLowerCase()));
             model.addAttribute("currentStatus", status.toLowerCase());
             
-            return "manage-resource-request-dashboard";
+            return "resource-request/manage-resource-request-dashboard";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "An error occurred while loading the requests.");
