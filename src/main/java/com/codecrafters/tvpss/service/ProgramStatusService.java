@@ -1,7 +1,6 @@
 package com.codecrafters.tvpss.service;
 
 import com.codecrafters.tvpss.model.ResourceRequestModel;
-import com.codecrafters.tvpss.repository.ResourceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

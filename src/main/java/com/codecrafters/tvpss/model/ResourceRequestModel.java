@@ -1,34 +1,59 @@
 package com.codecrafters.tvpss.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Document(collection = "RequestResource")
+@Entity
+@Table(name = "resource_requests")
 public class ResourceRequestModel {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "school_name", nullable = false)
     private String schoolName;
+    
+    @Column(name = "school_code", nullable = false)
     private String schoolCode;
+    
+    @Column(name = "resource_type", nullable = false)
     private String resourceType;
+    
     private int quantity;
+    
+    @Column(length = 1000)
     private String description;
+    
+    @Column(length = 1000)
     private String justification;
+    
+    @Column(name = "date_needed")
     private LocalDate dateNeeded;
+    
     private String priority;
+    
+    @Column(name = "additional_comment", length = 1000)
     private String additionalComment;
-    private String status; // "pending", "approved", "rejected"
+    
+    @Column(nullable = false)
+    private String status = "pending"; // "pending", "approved", "rejected"
+    
+    @Column(name = "date_submitted")
     private LocalDate dateSubmitted;
+    
+    @Column(name = "approved_quantity")
     private int approvedQuantity;
-    private String feedback; // Feedback from the TVPSS officer after review
+    
+    @Column(length = 1000)
+    private String feedback;
 
     // Getters and Setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
