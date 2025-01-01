@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Statistics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-xl font-semibold">Today's Statistics</h1>
+            <span>Tue, 14 Nov, 2024, 11:30 AM</span>
+        </div>
+
+        <!-- Report Status and Validation Status Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Report Status Pie Chart Card -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h2 class="font-semibold text-md">Report Status</h2>
+                <!-- Placeholder for Pie Chart -->
+                <div class="mt-4 bg-gray-200 rounded-full h-32 w-32 mx-auto"></div>
+            </div>
+
+            <!-- Validation Status Card -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h2 class="font-semibold text-md">Validation Status</h2>
+                <p>Total & Report Validated</p>
+                <p><span class="text-red-500">↓ 1.5%</span> Compared to yesterday</p>
+                <p>Last week report validated: 26</p>
+            </div>
+
+            <!-- Pending Approvals Card -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <h2 class="font-semibold text-md">Pending Approvals</h2>
+                <p>36 <span class="text-green-500">↑ 2.5%</span></p>
+                <p>Compared to 20 yesterday</p>
+            </div>
+        </div>
+
+        <!-- Form Validation Status Table -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <h2 class="font-semibold text-md mb-4">Form validation Status</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left">
+                            <th>No.</th>
+                            <th>School code</th>
+                            <th>Submission Date</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>JBA3001</td>
+                            <td>24/08/2024</td>
+                            <td><span class="text-green-500">Approved</span></td>
+                            <td><button class="text-blue-600">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>JBA3002</td>
+                            <td>06/09/2024</td>
+                            <td><span class="text-yellow-500">Pending</span></td>
+                            <td><button class="text-blue-600">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td>JBA3003</td>
+                            <td>01/11/2024</td>
+                            <td><span class="text-red-500">Rejected</span></td>
+                            <td><button class="text-blue-600">Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Trends Over Time Graph -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <h2 class="font-semibold text-md mb-4">Trends Over Time</h2>
+            <!-- Placeholder for Line Graph -->
+            <div class="h-64 bg-gray-200 rounded-lg"></div>
+        </div>
+    </div>
+</body>
+</html>

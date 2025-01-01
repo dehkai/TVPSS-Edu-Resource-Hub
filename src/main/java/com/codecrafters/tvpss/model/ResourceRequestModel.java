@@ -1,9 +1,14 @@
 package com.codecrafters.tvpss.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 
+@Document(collection = "RequestResource")
 public class ResourceRequestModel {
-    private Long id;
+
+    @Id
+    private String id;
     private String schoolName;
     private String schoolCode;
     private String resourceType;
@@ -13,18 +18,17 @@ public class ResourceRequestModel {
     private LocalDate dateNeeded;
     private String priority;
     private String additionalComment;
-
     private String status; // "pending", "approved", "rejected"
     private LocalDate dateSubmitted;
-    private int approvedQuantity; // The quantity approved by the officer
+    private int approvedQuantity;
     private String feedback; // Feedback from the TVPSS officer after review
 
-
-    public Long getId() {
+    // Getters and Setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
