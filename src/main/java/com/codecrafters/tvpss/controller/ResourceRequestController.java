@@ -28,7 +28,6 @@ public class ResourceRequestController {
 
     @PostMapping("/submitRequest")
     public String submitForm(ResourceRequestModel request, Model model) {
-        // Process the request object as needed
         model.addAttribute("message", "Request submitted successfully!");
         return "resource-request-submit-successful";
     }
@@ -37,7 +36,11 @@ public class ResourceRequestController {
 
     @GetMapping("/manage")
     public String showManageRequestsPage(Model model) {
-        model.addAttribute("requests", resourceRequestService.getPendingRequests());
+        model.addAttribute("requests", resourceRequestService.getAllRequests());
+        model.addAttribute("pendingRequests", resourceRequestService.findByStatus("pending"));
+        model.addAttribute("approvedRequests", resourceRequestService.findByStatus("approved"));
+        model.addAttribute("rejectedRequests", resourceRequestService.findByStatus("rejected"));
+        
         return "manage-resource-request-dashboard";
     }
 

@@ -13,8 +13,8 @@ public class ResourceRequestService {
     @Autowired
     private ResourceRequestDao resourceRequestDao;
 
-    public List<ResourceRequestModel> getPendingRequests() {
-        return resourceRequestDao.findByStatus("pending");
+    public List<ResourceRequestModel> findByStatus(String status) {
+        return resourceRequestDao.findByStatus(status);
     }
 
     public void approveRequest(String id, int approvedQuantity, String feedback) {
