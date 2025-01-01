@@ -3,6 +3,7 @@ package com.codecrafters.tvpss.controller;
 import com.codecrafters.tvpss.model.ResourceRequestModel;
 import com.codecrafters.tvpss.service.ResourceRequestService;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ResourceRequestController {
@@ -32,33 +35,52 @@ public class ResourceRequestController {
         return "resource-request-submit-successful";
     }
 
-
-
     @GetMapping("/manage")
-    public String showManageRequestsPage(Model model) {
-        model.addAttribute("requests", resourceRequestService.getAllRequests());
-        model.addAttribute("pendingRequests", resourceRequestService.findByStatus("pending"));
-        model.addAttribute("approvedRequests", resourceRequestService.findByStatus("approved"));
-        model.addAttribute("rejectedRequests", resourceRequestService.findByStatus("rejected"));
-        
-        return "manage-resource-request-dashboard";
+    public String showManageRequestsPage(@RequestParam(defaultValue = "pending") String status, Model model) {
+        try {
+            // Add all counts for the status cards
+            List<ResourceRequestModel> pendingRequests = resourceRequestService.findByStatus("pending");
+            List<ResourceRequestModel> approvedRequests = resourceRequestService.findByStatus("approved");
+            List<ResourceRequestModel> rejectedRequests = resourceRequestService.findByStatus("rejected");
+            
+            model.addAttribute("pendingRequests", pendingRequests);
+            model.addAttribute("approvedRequests", approvedRequests);
+            model.addAttribute("rejectedRequests", rejectedRequests);
+            
+            // Add the filtered requests based on status
+            model.addAttribute("requests", resourceRequestService.findByStatus(status.toLowerCase()));
+            model.addAttribute("currentStatus", status.toLowerCase());
+            
+            return "manage-resource-request-dashboard";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "An error occurred while loading the requests.");
+            return "error";
+        }
     }
 
     @PostMapping("/manage/{id}/approve")
-    @ResponseBody
-    public String approveRequest(@PathVariable String id, @RequestBody Map<String, Object> payload) {
-        int approvedQuantity = Integer.parseInt(payload.get("approvedQuantity").toString());
-        String feedback = (String) payload.get("feedback");
+    public String approveRequest(@PathVariable String id, 
+                               @RequestParam int approvedQuantity, 
+                               @RequestParam String feedback,
+                               RedirectAttributes redirectAttributes) {
         resourceRequestService.approveRequest(id, approvedQuantity, feedback);
-        return "Request approved";
+        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        return "redirect:/manage";
     }
 
     @PostMapping("/manage/{id}/reject")
-    @ResponseBody
-    public String rejectRequest(@PathVariable String id, @RequestBody Map<String, Object> payload) {
-        String feedback = (String) payload.get("feedback");
-        resourceRequestService.rejectRequest(id, feedback);
-        return "Request rejected";
+    public String rejectRequest(@PathVariable String id, 
+                              @RequestParam String feedback,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            resourceRequestService.rejectRequest(id, feedback);
+            redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Failed to reject request");
+        }
+        return "redirect:/manage";
     }
 }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class ResourceRequestService {
@@ -14,7 +15,12 @@ public class ResourceRequestService {
     private ResourceRequestDao resourceRequestDao;
 
     public List<ResourceRequestModel> findByStatus(String status) {
-        return resourceRequestDao.findByStatus(status);
+        try {
+            return resourceRequestDao.findByStatus(status.toLowerCase());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public void approveRequest(String id, int approvedQuantity, String feedback) {

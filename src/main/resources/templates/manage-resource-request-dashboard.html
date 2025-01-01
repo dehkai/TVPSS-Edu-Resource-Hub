@@ -25,10 +25,6 @@
         .active-card {
             border-color: #3B82F6;
         }
-        .request-row[data-status="approved"],
-        .request-row[data-status="rejected"] {
-            display: none;
-        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -42,10 +38,9 @@
 
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Pending Requests Card -->
-            <div onclick="switchView('pending')" 
-                 class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow status-card active-card"
-                 data-status="pending">
+            <a th:href="@{/manage(status='pending')}" 
+               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+               th:classappend="${currentStatus == 'pending' ? 'border-2 border-blue-500' : ''}">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-blue-100 text-blue-500">
                         <i class="fas fa-clock text-xl"></i>
@@ -56,12 +51,11 @@
                            th:text="${#lists.size(pendingRequests)}">0</p>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <!-- Approved Requests Card -->
-            <div onclick="switchView('approved')" 
-                 class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow status-card"
-                 data-status="approved">
+            <a th:href="@{/manage(status='approved')}" 
+               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+               th:classappend="${currentStatus == 'approved' ? 'border-2 border-green-500' : ''}">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-green-100 text-green-500">
                         <i class="fas fa-check text-xl"></i>
@@ -72,12 +66,11 @@
                            th:text="${#lists.size(approvedRequests)}">0</p>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <!-- Rejected Requests Card -->
-            <div onclick="switchView('rejected')" 
-                 class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-lg transition-shadow status-card"
-                 data-status="rejected">
+            <a th:href="@{/manage(status='rejected')}" 
+               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+               th:classappend="${currentStatus == 'rejected' ? 'border-2 border-red-500' : ''}">
                 <div class="flex items-center">
                     <div class="p-3 rounded-full bg-red-100 text-red-500">
                         <i class="fas fa-times text-xl"></i>
@@ -88,7 +81,11 @@
                            th:text="${#lists.size(rejectedRequests)}">0</p>
                     </div>
                 </div>
-            </div>
+            </a>
+        </div>
+
+        <div th:if="${message}" class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+            <p th:text="${message}"></p>
         </div>
 
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -118,10 +115,9 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <!-- Show requests based on their status -->
                         <tr th:each="request : ${requests}" 
-                            th:data-status="${request.status}"
-                            class="hover:bg-gray-50 transition-colors request-row">
+                            th:if="${request.status == currentStatus}"
+                            class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4">
                                 <span class="text-sm font-medium text-gray-900" th:text="${request.id}"></span>
                             </td>
@@ -196,14 +192,12 @@
                             </td>
                             
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
-                                    <button th:if="${request.status == 'pending'}" 
-                                            onclick="openModal('approveModal', '[[${request.id}]]')"
+                                <div class="flex space-x-2" th:if="${request.status == 'pending'}">
+                                    <button th:onclick="'openModal(\'approveModal\', \'' + ${request.id} + '\')'"
                                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
                                         Approve
                                     </button>
-                                    <button th:if="${request.status == 'pending'}" 
-                                            onclick="openModal('rejectModal', '[[${request.id}]]')"
+                                    <button th:onclick="'openModal(\'rejectModal\', \'' + ${request.id} + '\')'"
                                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
                                         Reject
                                     </button>
@@ -216,22 +210,23 @@
         </div>
     </div>
 
-    <div id="approveModal" class="fixed inset-0 bg-black bg-opacity-50 hidden backdrop-blur-sm">
-        <div class="relative top-20 mx-auto p-6 border w-full max-w-md shadow-xl rounded-xl bg-white">
-            <div class="mt-3 text-center">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Approve Request</h3>
-                <div class="mt-2 px-7 py-3">
-                    <form id="approveForm" class="space-y-4">
-                        <input type="hidden" id="approveRequestId" name="requestId">
+    <div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Approve Request</h3>
+                <div class="mt-2">
+                    <form method="post" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Approved Quantity</label>
-                            <input type="number" id="approvedQuantity" name="approvedQuantity" 
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                            <input type="number" name="approvedQuantity" 
+                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                   required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Feedback</label>
-                            <textarea id="approveFeedback" name="feedback" rows="3" 
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+                            <textarea name="feedback" rows="3" 
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    required></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" onclick="closeModal('approveModal')"
@@ -247,15 +242,15 @@
 
     <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3 text-center">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Reject Request</h3>
-                <div class="mt-2 px-7 py-3">
-                    <form id="rejectForm" class="space-y-4">
-                        <input type="hidden" id="rejectRequestId" name="requestId">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Reject Request</h3>
+                <div class="mt-2">
+                    <form method="post" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Reason for Rejection</label>
-                            <textarea id="rejectFeedback" name="feedback" rows="3" 
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+                            <textarea name="feedback" rows="3" 
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    required></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" onclick="closeModal('rejectModal')"
@@ -269,80 +264,30 @@
         </div>
     </div>
 
+    <!-- Add this script at the end of the body -->
     <script>
     function openModal(modalId, requestId) {
         document.getElementById(modalId).classList.remove('hidden');
-        document.getElementById(modalId === 'approveModal' ? 'approveRequestId' : 'rejectRequestId').value = requestId;
+        // Update form action with the correct request ID and action
+        const form = document.querySelector('#' + modalId + ' form');
+        form.action = '/manage/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
     }
 
     function closeModal(modalId) {
         document.getElementById(modalId).classList.add('hidden');
     }
 
-    document.getElementById('approveForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const requestId = document.getElementById('approveRequestId').value;
-        const approvedQuantity = document.getElementById('approvedQuantity').value;
-        const feedback = document.getElementById('approveFeedback').value;
-        
-        fetch(`/manage/${requestId}/approve`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                approvedQuantity: approvedQuantity,
-                feedback: feedback
-            })
-        }).then(() => {
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const approveModal = document.getElementById('approveModal');
+        const rejectModal = document.getElementById('rejectModal');
+        if (event.target === approveModal) {
             closeModal('approveModal');
-            location.reload();
-        });
-    });
-
-    document.getElementById('rejectForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const requestId = document.getElementById('rejectRequestId').value;
-        const feedback = document.getElementById('rejectFeedback').value;
-        
-        fetch(`/manage/${requestId}/reject`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                feedback: feedback
-            })
-        }).then(() => {
+        }
+        if (event.target === rejectModal) {
             closeModal('rejectModal');
-            location.reload();
-        });
-    });
-
-    function switchView(status) {
-        // Update card styling
-        document.querySelectorAll('.status-card').forEach(card => {
-            card.classList.remove('active-card');
-            if (card.dataset.status === status) {
-                card.classList.add('active-card');
-            }
-        });
-
-        // Hide all rows first
-        document.querySelectorAll('.request-row').forEach(row => {
-            row.style.display = 'none';
-        });
-
-        // Show only rows matching the selected status
-        document.querySelectorAll(`.request-row[data-status="${status}"]`).forEach(row => {
-            row.style.display = 'table-row';
-        });
+        }
     }
-
-    // Initialize with pending requests view
-    document.addEventListener('DOMContentLoaded', function() {
-        switchView('pending');
-    });
     </script>
 </body>
 </html>
