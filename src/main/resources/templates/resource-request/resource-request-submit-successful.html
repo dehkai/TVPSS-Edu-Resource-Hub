@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Submitted Successfully</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+    <div class="text-center">
+      <svg class="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <h2 class="mt-4 text-2xl font-bold text-gray-900">Request Submitted Successfully!</h2>
+      <p class="mt-2 text-gray-600">Your resource request has been submitted and is pending review.</p>
+      <div class="mt-6">
+        <a href="/resource-request" class="text-blue-500 hover:text-blue-700">Submit another request</a>
+        <span class="mx-2 text-gray-400">|</span>
+        <a href="/" class="text-blue-500 hover:text-blue-700">Return to home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
