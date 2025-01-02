@@ -5,6 +5,7 @@ import com.codecrafters.tvpss.service.ResourceRequestService;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,21 @@ public class ResourceRequestController {
     }
 
     @PostMapping("/submitRequest")
-    public String submitForm(ResourceRequestModel request, Model model) {
-        model.addAttribute("message", "Request submitted successfully!");
+    public String submitForm(ResourceRequestModel request, RedirectAttributes redirectAttributes) {
+        try {
+            request.setStatus("pending"); // Set initial status
+            request.setDateSubmitted(LocalDate.now()); // Set submission date
+            resourceRequestService.addRequest(request);
+            redirectAttributes.addFlashAttribute("success", "Request submitted successfully!");
+            return "redirect:/resource-request/success";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to submit request: " + e.getMessage());
+            return "redirect:/resource-request";
+        }
+    }
+
+    @GetMapping("/resource-request/success")
+    public String showSuccessPage() {
         return "resource-request/resource-request-submit-successful";
     }
 
