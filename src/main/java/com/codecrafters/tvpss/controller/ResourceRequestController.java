@@ -49,7 +49,7 @@ public class ResourceRequestController {
         return "resource-request/resource-request-submit-successful";
     }
 
-    @GetMapping("/manage")
+    @GetMapping("/manage-resource-request")
     public String showManageRequestsPage(@RequestParam(defaultValue = "pending") String status, Model model) {
         try {
             // Add all counts for the status cards

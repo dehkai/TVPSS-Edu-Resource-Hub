@@ -38,7 +38,7 @@
 
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <a th:href="@{/manage(status='pending')}" 
+            <a th:href="@{/manage-resource-request(status='pending')}" 
                class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
                th:classappend="${currentStatus == 'pending' ? 'border-2 border-blue-500' : ''}">
                 <div class="flex items-center">
@@ -53,7 +53,7 @@
                 </div>
             </a>
 
-            <a th:href="@{/manage(status='approved')}" 
+            <a th:href="@{/manage-resource-request(status='approved')}" 
                class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
                th:classappend="${currentStatus == 'approved' ? 'border-2 border-green-500' : ''}">
                 <div class="flex items-center">
@@ -68,7 +68,7 @@
                 </div>
             </a>
 
-            <a th:href="@{/manage(status='rejected')}" 
+            <a th:href="@{/manage-resource-request(status='rejected')}" 
                class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
                th:classappend="${currentStatus == 'rejected' ? 'border-2 border-red-500' : ''}">
                 <div class="flex items-center">
@@ -270,7 +270,7 @@
         document.getElementById(modalId).classList.remove('hidden');
         // Update form action with the correct request ID and action
         const form = document.querySelector('#' + modalId + ' form');
-        form.action = '/manage/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
+        form.action = '/manage-resource-request/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
     }
 
     function closeModal(modalId) {
