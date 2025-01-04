@@ -6,12 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 @Controller
 public class DashboardController {
 
     @Autowired
     private DashboardService dashboardService;
+
+    @GetMapping("/dashboard")
+    public String defaultRedirect(Authentication authentication) {
+        if (authentication != null && authentication.getAuthorities() != null) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    return "redirect:/dashboard/admin";
+                } else if (authority.getAuthority().equals("ROLE_OFFICER")) {
+                    return "redirect:/dashboard/officer";
+                } else if (authority.getAuthority().equals("ROLE_STUDENT")) {
+                    return "redirect:/dashboard/student";
+                }
+            }
+        }
+        return "redirect:/login";
+    }
 
     @GetMapping("/dashboard/admin")
     public String adminDashboard(Model model) {

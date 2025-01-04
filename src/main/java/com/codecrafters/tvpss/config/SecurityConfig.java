@@ -26,12 +26,15 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())  // For testing only - enable CSRF in production
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/dashboard/admin/**").hasRole("ADMIN")
+                .requestMatchers("/dashboard/officer/**").hasRole("OFFICER")
+                .requestMatchers("/dashboard/student/**").hasRole("STUDENT")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
             )
             .logout(logout -> logout
@@ -47,7 +50,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-     @Bean
+    @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         
