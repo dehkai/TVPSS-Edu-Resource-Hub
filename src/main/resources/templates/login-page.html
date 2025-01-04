@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 flex items-center justify-center h-screen">
+
+    <div class="w-full max-w-md bg-white p-8 shadow-md">
+        <div class="flex justify-center mb-6">
+            <img src="/Users/xinen/Documents/GitHub/TVPSS-Edu-Resource-Hub/src/main/resources/static/image/tvpssLogo.png" alt="Logo" class="w-40 h-32">
+        </div>
+
+        <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+
+        <form action="/login" method="post">
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password" 
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <div>
+                <button type="submit" class="w-full py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="/register" class="text-sm text-indigo-600 hover:text-indigo-500">Got quuestion? Please contact us tvpsss@gmail.com</a>
+        </div>
+    </div>
+
+</body>
+</html>
