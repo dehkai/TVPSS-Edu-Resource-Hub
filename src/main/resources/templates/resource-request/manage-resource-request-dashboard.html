@@ -2,216 +2,254 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Resource Requests</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>TVPSS Portal - Resource Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .tab-button {
-            border-color: transparent;
-            color: #6B7280;
-        }
-        .tab-button:hover {
-            color: #374151;
-            border-color: #E5E7EB;
-        }
-        .active-tab {
-            border-color: #3B82F6;
-            color: #3B82F6;
-        }
-        .status-card {
-            border: 2px solid transparent;
-        }
-        .active-card {
-            border-color: #3B82F6;
+        body {
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <div class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold text-gray-800">
-                <i class="fas fa-tasks-alt mr-2"></i>Resource Requests Dashboard
-            </h1>
-        </div>
-    </div>
-
-    <div class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <a th:href="@{/manage-resource-request(status='pending')}" 
-               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-               th:classappend="${currentStatus == 'pending' ? 'border-2 border-blue-500' : ''}">
+    <!-- Top Navigation Bar -->
+    <header class="bg-white shadow-sm fixed w-full">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-blue-100 text-blue-500">
-                        <i class="fas fa-clock text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 text-sm">Pending Requests</p>
-                        <p class="text-2xl font-semibold text-gray-800" 
-                           th:text="${#lists.size(pendingRequests)}">0</p>
-                    </div>
+                    <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/328703162_1625433044574400_7944227844903868626_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=TcsfsEbUaiUQ7kNvgEE-JT2&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=Ak4toum7BO88jO36dIpckou&oh=00_AYD8Qc7NNM-7B0TU7NzYlIFV8zQn_eCTBjaNDJFAU9BbyA&oe=677D6864" 
+                         alt="JPNJ Logo" 
+                         class="h-8 w-auto">
+                    <h1 class="ml-3 text-xl font-semibold text-gray-900">TVPSS Portal Johor State Education Department</h1>
                 </div>
-            </a>
-
-            <a th:href="@{/manage-resource-request(status='approved')}" 
-               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-               th:classappend="${currentStatus == 'approved' ? 'border-2 border-green-500' : ''}">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-green-100 text-green-500">
-                        <i class="fas fa-check text-xl"></i>
+                
+                <!-- Right side of header -->
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-bell text-xl"></i>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="h-8 w-8 rounded-full bg-cyan-600 flex items-center justify-center text-white">
+                            OF
+                        </div>
+                        <div class="text-sm">
+                            <p class="font-medium text-gray-700">TVPSS Officer</p>
+                            <p class="text-gray-500">Officer</p>
+                        </div>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                Logout
+                            </button>
+                        </form>
                     </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 text-sm">Approved Requests</p>
-                        <p class="text-2xl font-semibold text-gray-800" 
-                           th:text="${#lists.size(approvedRequests)}">0</p>
-                    </div>
-                </div>
-            </a>
-
-            <a th:href="@{/manage-resource-request(status='rejected')}" 
-               class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-               th:classappend="${currentStatus == 'rejected' ? 'border-2 border-red-500' : ''}">
-                <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-red-100 text-red-500">
-                        <i class="fas fa-times text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-gray-500 text-sm">Rejected Requests</p>
-                        <p class="text-2xl font-semibold text-gray-800" 
-                           th:text="${#lists.size(rejectedRequests)}">0</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div th:if="${message}" class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-            <p th:text="${message}"></p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div class="p-6 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-800">Resource Requests</h2>
-            </div>
-
-            <div th:if="${#lists.isEmpty(pendingRequests) and #lists.isEmpty(approvedRequests) and #lists.isEmpty(rejectedRequests)}" 
-                 class="p-8 text-center">
-                <div class="text-gray-400">
-                    <i class="fas fa-inbox text-5xl mb-4"></i>
-                    <p class="text-lg">No requests found</p>
                 </div>
             </div>
+        </div>
+    </header>
 
-            <div th:if="${not (#lists.isEmpty(pendingRequests) and #lists.isEmpty(approvedRequests) and #lists.isEmpty(rejectedRequests))}" 
-                 class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Info</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource Details</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timeline</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr th:each="request : ${requests}" 
-                            th:if="${request.status == currentStatus}"
-                            class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4">
-                                <span class="text-sm font-medium text-gray-900" th:text="${request.id}"></span>
-                            </td>
-                            
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                            <i class="fas fa-school text-gray-500"></i>
+    <div class="min-h-screen flex pt-16">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:w-64 md:flex-col">
+            <div class="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r border-gray-200">
+                <div class="flex-grow flex flex-col">
+                    <nav class="flex-1 px-2 pb-4 space-y-1">
+                        <a href="/dashboard/officer" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            Dashboard
+                        </a>
+
+                        <a href="/program-status" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            Program Status
+                        </a>
+
+                        <a href="/candidate-management" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            Candidate Management
+                        </a>
+
+                        <a href="/manage-resource-request" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                            Resource Management
+                        </a>
+
+                        <a href="/manage-resource-request" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            Reports
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1">
+            <main class="p-8">
+                <!-- Page Title -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-900">Resource Management</h2>
+                    <p class="text-sm text-gray-500">Manage and track resource requests from schools</p>
+                </div>
+
+                <!-- Status Cards -->
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <a href="/manage-resource-request?status=pending" 
+                       class="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow"
+                       th:classappend="${currentStatus == 'pending' ? 'ring-2 ring-blue-500' : ''}">
+                        <div class="flex items-center">
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Pending Requests</p>
+                                <p class="text-2xl font-semibold" th:text="${#lists.size(pendingRequests)}">2</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/manage-resource-request?status=approved" 
+                       class="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow"
+                       th:classappend="${currentStatus == 'approved' ? 'ring-2 ring-green-500' : ''}">
+                        <div class="flex items-center">
+                            <div class="bg-green-50 p-3 rounded-lg">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Approved Requests</p>
+                                <p class="text-2xl font-semibold" th:text="${#lists.size(approvedRequests)}">3</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="/manage-resource-request?status=rejected" 
+                       class="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow"
+                       th:classappend="${currentStatus == 'rejected' ? 'ring-2 ring-red-500' : ''}">
+                        <div class="flex items-center">
+                            <div class="bg-red-50 p-3 rounded-lg">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Rejected Requests</p>
+                                <p class="text-2xl font-semibold" th:text="${#lists.size(rejectedRequests)}">2</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Resource Requests Table -->
+                <div class="bg-white rounded-lg border">
+                    <div class="p-4 border-b flex justify-between items-center">
+                        <h3 class="text-lg font-semibold">Resource Requests</h3>
+                        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Pending</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 text-xs uppercase text-gray-500">
+                                <tr>
+                                    <th class="px-6 py-3 text-left tracking-wider">Request ID</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">School Info</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">Resource Details</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">Justification</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">Timeline</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr th:each="request : ${requests}" class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-medium" th:text="${request.id}">1</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="h-10 w-10 flex-shrink-0 bg-gray-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                                </svg>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium" th:text="${request.schoolName}">SMK Mutiara Rini</div>
+                                                <div class="text-sm text-gray-500" th:text="${request.schoolCode}">SMKMR</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="font-medium text-gray-900" th:text="${request.schoolName}"></div>
-                                        <div class="text-sm text-gray-500" th:text="${request.schoolCode}"></div>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <div class="space-y-2">
-                                    <div class="flex items-center">
-                                        <span class="px-2 py-1 text-xs rounded-md bg-blue-100 text-blue-800" 
-                                              th:text="${request.resourceType}"></span>
-                                        <span class="ml-2 text-sm text-gray-500">
-                                            <span th:text="${request.quantity}"></span> units
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="space-y-1">
+                                            <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800" th:text="${request.resourceType}">Textbooks</span>
+                                            <div class="text-sm text-gray-600">
+                                                <span th:text="${request.quantity}">120</span> units
+                                            </div>
+                                            <div class="text-sm text-gray-500" th:text="${request.description}">
+                                                Requesting additional math textbooks for the upcoming semester.
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500">
+                                            <p class="whitespace-pre-line" th:text="${request.justification}">
+                                                Justification text will appear here
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm">
+                                            <div>Needed by: <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}">Jan 10, 2024</span></div>
+                                            <div class="text-gray-500">Submitted: <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}">Dec 15, 2023</span></div>
+                                            <span th:class="${request.priority == 'High' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-red-100 text-red-800' : 
+                                                   (request.priority == 'Medium' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-green-100 text-green-800')}"
+                                                  th:text="${request.priority}">
+                                                High
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800" th:text="${request.status}">
+                                            pending
                                         </span>
-                                    </div>
-                                    <p class="text-sm text-gray-600" th:text="${request.description}"></p>
-                                    <p class="text-sm text-gray-500">
-                                        <span class="font-medium">Justification:</span>
-                                        <span th:text="${request.justification}"></span>
-                                    </p>
-                                </div>
-                            </td>
-                            
-                            <td class="px-6 py-4">
-                                <div class="text-sm">
-                                    <div class="text-gray-900">
-                                        <span class="font-medium">Needed by:</span>
-                                        <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}"></span>
-                                    </div>
-                                    <div class="text-gray-500 text-xs">
-                                        <span class="font-medium">Submitted:</span>
-                                        <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}"></span>
-                                    </div>
-                                    <div class="mt-1">
-                                        <span th:class="${request.priority == 'High' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800' : 
-                                                       (request.priority == 'Medium' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
-                                                       'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800')}"
-                                              th:text="${request.priority}">
-                                            Priority
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>
-                            
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span th:text="${request.status}"
-                                      th:class="${request.status == 'pending' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800' :
-                                               (request.status == 'approved' ? 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800' :
-                                               'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800')}">
-                                    Status
-                                </span>
-                                <div class="text-xs text-gray-500 mt-1" th:if="${request.status != 'pending'}">
-                                    <div th:if="${request.status == 'approved'}">
-                                        Approved Qty: <span th:text="${request.approvedQuantity}"></span>
-                                    </div>
-                                    <div th:if="${request.feedback}" class="mt-1">
-                                        <span th:text="${request.feedback}"></span>
-                                    </div>
-                                </div>
-                            </td>
-                            
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2" th:if="${request.status == 'pending'}">
-                                    <button th:onclick="'openModal(\'approveModal\', \'' + ${request.id} + '\')'"
-                                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
-                                        Approve
-                                    </button>
-                                    <button th:onclick="'openModal(\'rejectModal\', \'' + ${request.id} + '\')'"
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
-                                        Reject
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex space-x-2" th:if="${request.status == 'pending'}">
+                                            <button th:onclick="'openModal(\'approveModal\', \'' + ${request.id} + '\')'"
+                                                    class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                Approve
+                                            </button>
+                                            <button th:onclick="'openModal(\'rejectModal\', \'' + ${request.id} + '\')'"
+                                                    class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
-    <div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <!-- Modals -->
+    <div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Approve Request</h3>
                 <div class="mt-2">
@@ -219,20 +257,24 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Approved Quantity</label>
                             <input type="number" name="approvedQuantity" 
-                                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
                                    required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Feedback</label>
                             <textarea name="feedback" rows="3" 
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
                                     required></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" onclick="closeModal('approveModal')"
-                                    class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancel</button>
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Cancel
+                            </button>
                             <button type="submit"
-                                    class="bg-green-500 text-white px-4 py-2 rounded-md">Confirm</button>
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Confirm
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -240,8 +282,8 @@
         </div>
     </div>
 
-    <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Reject Request</h3>
                 <div class="mt-2">
@@ -249,14 +291,18 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Reason for Rejection</label>
                             <textarea name="feedback" rows="3" 
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
                                     required></textarea>
                         </div>
                         <div class="flex justify-end space-x-2">
                             <button type="button" onclick="closeModal('rejectModal')"
-                                    class="bg-gray-500 text-white px-4 py-2 rounded-md">Cancel</button>
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                Cancel
+                            </button>
                             <button type="submit"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-md">Confirm</button>
+                                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                Confirm
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -264,28 +310,26 @@
         </div>
     </div>
 
-    <!-- Add this script at the end of the body -->
+    <!-- Scripts -->
     <script>
     function openModal(modalId, requestId) {
         document.getElementById(modalId).classList.remove('hidden');
-        // Update form action with the correct request ID and action
+        document.body.style.overflow = 'hidden';
         const form = document.querySelector('#' + modalId + ' form');
         form.action = '/manage-resource-request/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
     }
 
     function closeModal(modalId) {
         document.getElementById(modalId).classList.add('hidden');
+        document.body.style.overflow = 'auto';
     }
 
     // Close modal when clicking outside
     window.onclick = function(event) {
         const approveModal = document.getElementById('approveModal');
         const rejectModal = document.getElementById('rejectModal');
-        if (event.target === approveModal) {
-            closeModal('approveModal');
-        }
-        if (event.target === rejectModal) {
-            closeModal('rejectModal');
+        if (event.target === approveModal || event.target === rejectModal) {
+            closeModal(event.target.id);
         }
     }
     </script>

@@ -11,8 +11,4 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "resource-request/manage-resource-request-dashboard";
-    }
 }

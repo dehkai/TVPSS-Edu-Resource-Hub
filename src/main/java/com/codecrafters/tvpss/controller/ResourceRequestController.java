@@ -73,17 +73,17 @@ public class ResourceRequestController {
         }
     }
 
-    @PostMapping("/manage/{id}/approve")
+    @PostMapping("/manage-resource-request/{id}/approve")
     public String approveRequest(@PathVariable String id, 
                                @RequestParam int approvedQuantity, 
                                @RequestParam String feedback,
                                RedirectAttributes redirectAttributes) {
         resourceRequestService.approveRequest(id, approvedQuantity, feedback);
         redirectAttributes.addFlashAttribute("message", "Request approved successfully");
-        return "redirect:/manage";
+        return "redirect:/manage-resource-request";
     }
 
-    @PostMapping("/manage/{id}/reject")
+    @PostMapping("/manage-resource-request/{id}/reject")
     public String rejectRequest(@PathVariable String id, 
                               @RequestParam String feedback,
                               RedirectAttributes redirectAttributes) {
@@ -94,7 +94,7 @@ public class ResourceRequestController {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Failed to reject request");
         }
-        return "redirect:/manage";
+        return "redirect:/manage-resource-request";
     }
 }
 

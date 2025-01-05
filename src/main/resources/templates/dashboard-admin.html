@@ -2,281 +2,266 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>TVPSS Portal - School Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
+<body class="bg-gray-50">
     <!-- Top Navigation Bar -->
-    <header class="bg-pink-600 text-white shadow-md">
-        <div class="container mx-auto flex justify-between items-center p-4">
-            <!-- Left Side: Dashboard Title -->
-            <div class="flex items-center space-x-4">
-                <span class="text-2xl font-bold">Dashboard</span>
-            </div>
-
-            <!-- Right Side: Icons and Profile -->
-            <div class="flex items-center space-x-6">
-                    <!-- Badge -->
-                    <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full px-1.5 py-0.5">3+</span>
+    <header class="bg-white border-b border-gray-200">
+        <div class="px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <!-- Left side -->
+                <div class="flex items-center">
+                    <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/328703162_1625433044574400_7944227844903868626_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=TcsfsEbUaiUQ7kNvgEE-JT2&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=Ak4toum7BO88jO36dIpckou&oh=00_AYD8Qc7NNM-7B0TU7NzYlIFV8zQn_eCTBjaNDJFAU9BbyA&oe=677D6864" 
+                         alt="JPNJ Logo" 
+                         class="h-8 w-auto">
+                    <span class="ml-4 text-lg font-semibold text-gray-900">TVPSS Portal Johor State Education Department</span>
                 </div>
 
-                <!-- Profile Icon with Name and Role -->
-                <div class="flex items-center space-x-2">
-                    <button class="text-white focus:outline-none">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12,22a2,2,0,0,0,2-2H10A2,2,0,0,0,12,22Zm6-6V9c0-3.07-1.64-5.64-4.5-6.32V2a1.5,1.5,0,0,0-3,0V2.68C7.63,3.36,6,5.92,6,9v7l-2,2V20H20V18Z"/>
+                <!-- Right side -->
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 text-gray-400 hover:text-gray-500">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                         </svg>
                     </button>
 
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L2pvYjEwMzQtZWxlbWVudC0wNy00MDMucG5n.png" alt="Profile Picture" class="w-10 h-10 rounded-full">
-                    <div class="text-sm">
-                        <span class="font-medium">Unami Gotaya</span>
-                        <p class="text-xs underline">Admin</p>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" 
+                             alt="Profile" 
+                             class="h-8 w-8 rounded-full">
+                        <div class="text-sm">
+                            <p class="font-medium text-gray-700">School Admin</p>
+                            <p class="text-gray-500">Administrator</p>
+                        </div>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="ml-2 text-sm text-red-600 hover:text-red-800">
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="container mx-auto mt-6 space-y-8">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:w-64 md:flex-col">
+            <div class="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r border-gray-200">
+                <div class="flex-grow flex flex-col">
+                    <nav class="flex-1 px-2 pb-4 space-y-1">
+                        <a href="#" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            Dashboard
+                        </a>
 
-        <!-- Hero Section -->
-        <div class="bg-white p-8 rounded-lg shadow-lg flex items-center justify-between">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-800">School Programs' Status Form</h2>
-                <p class="text-gray-600 mt-2">You can submit your data here.</p>
-                <button class="mt-4 px-4 py-2 bg-pink-500 hover:bg-purple-800 text-white rounded-lg">Submit</button>
-            </div>
-            <div>
-                <img src="https://www.pngitem.com/pimgs/m/334-3342708_business-women-in-suit-png-transparent-png.png" alt="Hero Image" class="w-40 h-40 rounded-lg">
+                        <!-- Add other sidebar items -->
+                        <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            Manage Candidates
+                        </a>
+
+                        <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            Manage Activities
+                        </a>
+
+                        <a href="/resource-request" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            Resource Requests
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
 
-        <!-- Recommended candidates Section -->
-        <section>
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold text-gray-800">Recommended candidates</h3>
-                <a href="#" class="text-blue-600">View All</a>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-    
-                <div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L2pvYjEwMzQtZWxlbWVudC0wNi0zOTcucG5n.png" alt="Interviewer" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">Juan Hamil</p>
-                    <p class="text-gray-500 text-sm">Designer</p>
-                    <p class="text-yellow-400 mt-1">4.8</p>
-                </div>
-
-                <div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://pbs.twimg.com/media/BduTxWnIUAAKT_5.jpg" alt="Interviewer" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">Wade Warren</p>
-                    <p class="text-gray-500 text-sm">Videographerp>
-                    <p class="text-yellow-400 mt-1">4.9</p>
-                </div>
-
-                <div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://media.istockphoto.com/id/1466995518/photo/business-woman-and-worker-portrait-at-office-desk-as-administration-executive-company-manager.jpg?s=612x612&w=0&k=20&c=NvKeG6Fh0_VVfH_N0Ka-5j8284XJhL2VTJfe6IwDkWQ=" alt="Interviewer 2" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">Allison Butz</p>
-                    <p class="text-gray-500 text-sm">Production Assistant</p>
-                    <p class="text-yellow-400 mt-1">4.7</p>
-                </div>
-
-                <div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrHo2ZyyMTK_nsBZhMGUcOoMtI1U083DKd6EUExMH_AqhC0GUACUazaLnxpgfK0ZhB8n0&usqp=CAU" alt="Interviewer 3" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">Jeanette Jr.</p>
-                    <p class="text-gray-500 text-sm">Project Manager</p>
-                    <p class="text-yellow-400 mt-1">4.8</p>
-
-                </div><div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L2pvYjEwMzQtZWxlbWVudC0wNS0zODUucG5n.png" alt="Interviewer 2" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">Raman Lowe</p>
-                    <p class="text-gray-500 text-sm">Camera Operator</p>
-                    <p class="text-yellow-400 mt-1">4.7</p>
-                </div>
-
-                <div class="bg-white shadow-md rounded-lg p-4 text-center">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpRfpo86SB6nHTlhI0FZFHPbdDb-y_QKJuvx6ugVdIEn1chvgrONhKsaG_spVs9sxjv84&usqp=CAU" alt="Interviewer 3" class="w-16 h-16 rounded-full mx-auto">
-                    <p class="mt-2 font-semibold">John Smith</p>
-                    <p class="text-gray-500 text-sm">Project Manager</p>
-                    <p class="text-yellow-400 mt-1">4.8</p>
-                </div>
-            </div>
-        </section>
-
-            <!-- Interview Section -->
-            <section>
-                        <!-- Container for the content -->
-                <div class="bg-white p-4 rounded-lg shadow-lg ">
-                    <!-- Header Section -->
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-2xl font-bold text-gray-800">Interview</h3>
-                        <a href="#" class="text-blue-600">View All</a>
+        <!-- Main content -->
+        <div class="flex-1">
+            <main class="py-6">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                    <!-- Welcome Section -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <h1 class="text-2xl font-semibold text-gray-900">Welcome, School Administrator</h1>
+                        <p class="mt-1 text-sm text-gray-500">Manage your school's TVPSS programs and candidates</p>
                     </div>
-                    <!-- Description Text -->
-                    <p class="text-gray-600">You can manage candidates' interview session here.</p>
-                    <!-- Image Section -->
-                    <img src="https://interviewbaba.com/wp-content/uploads/2024/01/strategic-grant-planning-session.png" alt="Interview Session" class="w-full mt-4" style="height: 250px; object-fit: cover;">
-                    <!-- Button Section -->
-                    <div class="text-center mt-4">
-                        <button class="bg-pink-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                            Manage interview
-                        </button>
+
+                    <!-- Quick Actions Grid -->
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <!-- Candidates Management Card -->
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                            <div class="p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-gray-900">Candidates</h2>
+                                        <p class="mt-1 text-sm text-gray-500">Manage candidate applications</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                        View Candidates
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activities Management Card -->
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                            <div class="p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-gray-900">Activities</h2>
+                                        <p class="mt-1 text-sm text-gray-500">Manage school activities</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                        Manage Activities
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resource Requests Card -->
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                            <div class="p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-gray-900">Resources</h2>
+                                        <p class="mt-1 text-sm text-gray-500">Submit resource requests</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <a href="/resource-request" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
+                                        Request Resources
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Applications Section -->
+                    <div class="mt-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-medium text-gray-900">Candidate Applications</h2>
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Application Card 1 -->
+                            <div class="bg-white rounded-lg shadow-sm p-4">
+                                <div class="flex flex-col items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Juan+Hamil&background=random" 
+                                         alt="Applicant" 
+                                         class="w-16 h-16 rounded-full mb-3">
+                                    <h3 class="text-gray-900 font-medium">Juan Hamil</h3>
+                                    <p class="text-gray-500 text-sm">Graphic Design Program</p>
+                                    <span class="mt-2 px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending Review</span>
+                                    <button class="mt-3 w-full px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                                        Review Application
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Application Card 2 -->
+                            <div class="bg-white rounded-lg shadow-sm p-4">
+                                <div class="flex flex-col items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Wade+Warren&background=random" 
+                                         alt="Applicant" 
+                                         class="w-16 h-16 rounded-full mb-3">
+                                    <h3 class="text-gray-900 font-medium">Wade Warren</h3>
+                                    <p class="text-gray-500 text-sm">Video Production</p>
+                                    <span class="mt-2 px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Approved</span>
+                                    <button class="mt-3 w-full px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                                        View Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Application Card 3 -->
+                            <div class="bg-white rounded-lg shadow-sm p-4">
+                                <div class="flex flex-col items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Allison+Butz&background=random" 
+                                         alt="Applicant" 
+                                         class="w-16 h-16 rounded-full mb-3">
+                                    <h3 class="text-gray-900 font-medium">Allison Butz</h3>
+                                    <p class="text-gray-500 text-sm">Production Assistant</p>
+                                    <span class="mt-2 px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Needs Information</span>
+                                    <button class="mt-3 w-full px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                                        Request Info
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Application Card 4 -->
+                            <div class="bg-white rounded-lg shadow-sm p-4">
+                                <div class="flex flex-col items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Jeanette+Jr&background=random" 
+                                         alt="Applicant" 
+                                         class="w-16 h-16 rounded-full mb-3">
+                                    <h3 class="text-gray-900 font-medium">Jeanette Jr.</h3>
+                                    <p class="text-gray-500 text-sm">Project Management</p>
+                                    <span class="mt-2 px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">In Review</span>
+                                    <button class="mt-3 w-full px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                                        Continue Review
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Notice Section -->
+                    <div class="mt-8">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Daily Notice</h2>
+                        <div class="bg-white shadow-sm rounded-lg divide-y divide-gray-200">
+                            <!-- Keep your existing notices but styled to match the new UI -->
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900">Candidate Application Updates</h3>
+                                <p class="mt-1 text-sm text-gray-500">Latest updates on candidate applications are now available.</p>
+                                <a href="#" class="mt-2 text-sm text-blue-600 hover:text-blue-800">View Details</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-        <!-- manage activities -->
-        <section>
-                    <!-- Container for the content -->
-            <div class="bg-white p-4 rounded-lg shadow-lg ">
-                <!-- Header Section -->
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-gray-800">Manage activities</h3>
-                    <a href="#" class="text-blue-600">View All</a>
-                </div>
-                <!-- Description Text -->
-                <p class="text-gray-600">You can manage manage activities here.</p>
-                <!-- Image Section -->
-                <img src="https://resources.workable.com/wp-content/uploads/2016/09/accounting-manager-interview-questions.jpg" alt="Manage activities" class="w-full mt-4" style="height: 250px; object-fit: cover;">
-                <!-- Button Section -->
-                <div class="text-center mt-4">
-                    <button class="bg-pink-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                        Manage activities
-                    </button>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Enrolled Courses Section -->
-        <section>
-            <div th:each="notice : ${notices}" class="bg-white p-4 shadow-lg rounded-lg">
-                <h2 class="text-lg text-gray-800 font-bold mb-4">Manage events and activities</h2>
-                <p class="text-gray-600 mb-6">Here can manage all the events and activities.</p>
-                <button class="bg-pink-500 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-full  transition-colors">
-                    Manage
-                </button>
-            </div>
-        </section>
-
-        <!-- Candidate's Application Section -->
-        <section>
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-bold text-gray-800">Candidates's Application</h3>
-                <a href="#" class="text-blue-600">View All</a>
-            </div>
-            <!-- Horizontal Scroll Container -->
-            <div class="flex overflow-x-auto space-x-4 p-4">
-                <!-- Each Event Card -->
-            
-             <!-- Additional event cards as needed -->
-             <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <!-- Placeholder for image -->
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L2pvYjEwMzktZWxlbWVudC0yMC0zOTMucG5n.png" alt="Placeholder" class="w-24 h-24 rounded-full">
-                </div>
-                <div class="flex-grow p-6 rounded-xl bg-gradient-to-br from-pink-500 to-pink-300 border-2 border-pink-600 shadow-xl">
-                    <h2 class="text-xl font-semibold text-white">Graphic Designer</h2>
-                    <p class="mt-2 text-purple-200">Due: 8 Dec</p>
-                    <button class="mt-4 bg-pink-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
-                        View
-                    </button>
-                </div>
-            </div>
-            
-    
-            <!-- Copy below for additional cards as needed -->
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L2pvYjEwMzktZWxlbWVudC0yNS0zOTMucG5n.png" alt="Placeholder" class="w-24 h-24 rounded-full">
-                </div>
-                <div class="flex-grow p-6 rounded-xl bg-gradient-to-br from-pink-500 to-pink-300 border-2 border-pink-600 shadow-xl">
-                    <h2 class="text-xl font-semibold text-white">Production Assistant</h2>
-                    <p class="mt-2 text-purple-200">Due: 3 Jun</p>
-                    <button class="mt-4 bg-pink-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
-                        View
-                    </button>
-                </div>
-            </div>
-    
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxLzI3OS1wYWkxNTc5LW5hbS1qb2IxNTI5LnBuZw.png" alt="Placeholder" class="w-24 h-24 rounded-full">
-                </div>
-                <div class="flex-grow p-6 rounded-xl bg-gradient-to-br from-pink-500 to-pink-300 border-2 border-pink-600 shadow-xl">
-                    <h2 class="text-xl font-semibold text-white">Camera Operator</h2>
-                    <p class="mt-2 text-purple-200">Due: 1 Nov</p>
-                    <button class="mt-4 bg-pink-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
-                        View
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                    <img src="https://toppng.com/uploads/preview/matthew-headshot-round-2-gentlema-115637306339dtbi0wcgv.png" alt="Placeholder" class="w-24 h-24 rounded-full">
-                </div>
-                <div class="flex-grow p-6 rounded-xl bg-gradient-to-br from-pink-500 to-pink-300 border-2 border-pink-600 shadow-xl">
-                    <h2 class="text-xl font-semibold text-white">Social Media Manager</h2>
-                    <p class="mt-2 text-purple-200">Due: 8 Dec</p>
-                    <button class="mt-4 bg-pink-700 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded">
-                        View
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-         
-    <!-- Submit Resource request application Section -->
-         <section>
-            <!-- Container for the content -->
-    <div class="bg-white p-4 rounded-lg shadow-lg ">
-        <!-- Header Section -->
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-2xl font-bold text-gray-800">Submit Resource request application </h3>
-            <a href="#" class="text-blue-600">View All</a>
-        </div>
-        <!-- Description Text -->
-        <p class="text-gray-600">You can submit the resource request application here.</p>
-        <!-- Image Section -->
-        <img src="https://www.miles.ca/wp-content/uploads/2018/04/Fotolia_164972019_M-1280x853.jpg" alt="Manage activities" class="w-full mt-4" style="height: 250px; object-fit: cover;">
-        <!-- Button Section -->
-        <div class="text-center mt-4">
-            <button class="bg-pink-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                Submit here
-            </button>
-        </div>
-
-        <!-- Update Button
-  <div class="flex justify-end mt-4">
-    <a href="/talent-form" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">Update</a>
-  </div>
-</div> -->
-
-    </div>
-</section> 
-
-<!-- Daily Notice Section -->
-<section>
-    <h3 class="text-2xl font-bold text-gray-800 mb-4">Daily Notice</h3>
-    <div class="space-y-4">
-        <!-- Candidate Application Status Notice -->
-        <div class="bg-white p-4 shadow-lg rounded-lg">
-            <h4 class="font-semibold text-gray-800">Candidate Application Updates</h4>
-            <p class="text-gray-600 mt-1">Latest updates on candidate applications are now available. Check the status to ensure timely processing.</p>
-            <a href="#" class="text-pink-600 mt-2 inline-block">View Applications</a>
-        </div>
-        <!-- Events and Activities Updates Notice -->
-        <div class="bg-white p-4 shadow-lg rounded-lg">
-            <h4 class="font-semibold text-gray-800">Events & Activities Updates</h4>
-            <p class="text-gray-600 mt-1">Stay updated with the latest schedules and changes to our upcoming events and activities.</p>
-            <a href="#" class="text-pink-600 mt-2 inline-block">Check Updates</a>
+            </main>
         </div>
     </div>
-</section>
-    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">
+                © 2024 TVPSS Portal Johor State Education Department. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
