@@ -96,5 +96,26 @@ public class ResourceRequestController {
         }
         return "redirect:/manage-resource-request";
     }
+
+    @GetMapping("/resource-management-report")
+    public String showResourceRequestReport(Model model) {
+        List<ResourceRequestModel> allRequests = resourceRequestService.getAllRequests();
+        model.addAttribute("allRequests", allRequests);
+        
+        long totalRequests = allRequests.size();
+        long approvedRequests = allRequests.stream().filter(r -> "approved".equals(r.getStatus())).count();
+        long rejectedRequests = allRequests.stream().filter(r -> "rejected".equals(r.getStatus())).count();
+        
+        model.addAttribute("totalRequests", totalRequests);
+        model.addAttribute("approvedRequests", approvedRequests);
+        model.addAttribute("rejectedRequests", rejectedRequests);
+        
+        return "resource-request/resource-management-report";
+    }
+
+    @GetMapping("/officer-reports-dashboard")
+    public String showReportsDashboard() {
+        return "reports-dashboard/officer-reports-dashboard";
+    }
 }
 
