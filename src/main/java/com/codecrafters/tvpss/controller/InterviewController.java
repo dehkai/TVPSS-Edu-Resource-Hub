@@ -20,20 +20,20 @@ public class InterviewController {
     @GetMapping("/interview-request")
     public String showForm(Model model) {
         model.addAttribute("interviewRequest", new InterviewModel());
-        return "interview-form";
+        return "/interview/interview-form";
     }
 
     @GetMapping("/interview-list")
     public String showInterviewList(Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
-        return "interview-list";
+        return "/interview/interview-list";
     }
 
     @PostMapping("/submitInterviewRequest")
     public String submitForm(InterviewModel request, Model model) {
         // Process the request object as needed
         model.addAttribute("message", "Request submitted successfully!");
-        return "interview-form";
+        return "/interview/interview-form";
     }
 //
 //

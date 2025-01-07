@@ -35,20 +35,20 @@ public class DashboardController {
     public String adminDashboard(Model model) {
         Dashboard dashboard = dashboardService.getAdminDashboard();
         model.addAttribute("dashboard", dashboard);
-        return "dashboard-admin";
+        return "/dashboard/dashboard-admin";
     }
 
     @GetMapping("/dashboard/officer")
     public String officerDashboard(Model model) {
         Dashboard dashboard = dashboardService.getOfficerDashboard();
         model.addAttribute("dashboard", dashboard);
-        return "dashboard-officer";
+        return "/dashboard/dashboard-officer";
     }
 
     @GetMapping("/dashboard/student")
     public String studentDashboard(Model model) {
         Dashboard dashboard = dashboardService.getStudentDashboard();
         model.addAttribute("dashboard", dashboard);
-        return "dashboard-student";
+        return "/dashboard/dashboard-student";
     }
 }
