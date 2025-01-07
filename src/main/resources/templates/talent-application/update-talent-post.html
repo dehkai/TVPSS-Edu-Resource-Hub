@@ -1,118 +1,9 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resource Request Application</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-
-<div class="flex justify-center items-center h-screen">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl">
-        <div class="flex flex-col md:flex-row">
-            <!-- Header and Description section -->
-            <div class="md:w-1/3 mb-6 md:mb-0">
-                <h2 class="text-3xl font-bold mb-4">Update Talent Post Form</h2>
-                <p class="text-gray-600">
-                    Please complete the form to request the resources you need. Ensure all required fields are filled out
-                    accurately. Once submitted, your request will be reviewed, and you will be notified of the decision.
-                </p>
-            </div>
-
-            <!-- Form section -->
-            <div class="md:w-2/3 md:pl-6">
-                <form th:action="@{/submitTalentRequest}" th:object="${talentPostRequest}" method="post">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-600 mb-1">talentName ?</label>
-                            <input type="text" th:field="*{talentName}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <label class="block text-gray-600 mb-1">description *</label>
-                            <input type="date" th:field="*{description}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <label class="block text-gray-600 mb-1">dueDate</label>
-                        <textarea th:field="*{dueDate}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-600 mb-1">Status</label>
-                            <select th:field="*{status}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
-                                <option value="">select status</option>
-                                <option value="low">Under Review</option>
-                                <option value="medium">Approved</option>
-                                <option value="high">Rejected</option>
-                                <option value="high">Interview Scheduled</option>
-                                <option value="high">Interview Completed</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-600 mb-1">status</label>
-                            <select th:field="*{status}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">
-                                <option value="">select status</option>
-                                <option value="scheduled">Qualified</option>
-                                <option value="completed">Disqualified</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--                    <div class="mt-4">-->
-                    <!--                        <label class="block text-gray-600 mb-1">Justification</label>-->
-                    <!--                        <textarea th:field="*{date}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="mt-4">-->
-                    <!--                        <label class="block text-gray-600 mb-1">Select a Date</label>-->
-                    <!--                        <input type="date" th:field="*{date}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">-->
-                    <!--                    </div>-->
-                    <!--                    <div class="mt-4">-->
-                    <!--                        <label class="block text-gray-600 mb-1">Priority</label>-->
-                    <!--                        <select th:field="*{date}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800">-->
-                    <!--                            <option value="">Select Priority</option>-->
-                    <!--                            <option value="low">Low</option>-->
-                    <!--                            <option value="medium">Medium</option>-->
-                    <!--                            <option value="high">High</option>-->
-                    <!--                        </select>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="mt-4">-->
-                    <!--                        <label class="block text-gray-600 mb-1">Additional Comment</label>-->
-                    <!--                        <textarea th:field="*{date}" class="w-full p-2 border border-gray-300 rounded bg-gray-100 text-gray-800" rows="3"></textarea>-->
-                    <!--                    </div>-->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <button type="submit" class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
-                                Submit
-                            </button>
-                        </div>
-                        <div>
-                            <button type="submit" class="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
-                                See Updates
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-</body>
-</html>
-
-
-
-////////////////////////////////////////////////////////////////////
-
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>TVPSS Portal - Resource Request</title>
+    <title>TVPSS Portal - Post Talent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -187,11 +78,18 @@
                         Manage Activities
                     </a>
 
-                    <a href="/resource-request" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                    <a href="/resource-request" class="bg-gray-50 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                         <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                         </svg>
                         Resource Requests
+                    </a>
+
+                    <a href="/talentPost-list" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        Manage Post List
                     </a>
                 </nav>
             </div>
@@ -204,73 +102,42 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <!-- Page Header -->
                 <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
-                    <h1 class="text-xl font-semibold text-gray-900">Resource Request Form</h1>
-                    <p class="mt-0.5 text-sm text-gray-500">Submit your resource request application</p>
+                    <h1 class="text-xl font-semibold text-gray-900">Post Talent Form</h1>
+                    <p class="mt-0.5 text-sm text-gray-500">Create your post Talent</p>
                 </div>
 
                 <!-- Form Section -->
                 <div class="bg-white rounded-lg shadow-sm">
-                    <form th:action="@{/submitRequest}" th:object="${resourceRequest}" method="post" class="p-4">
+                    <form th:action="@{/submitTalentPostRequest}" th:object="${talentPostRequest}" method="post" class="p-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">School's Name</label>
-                                <input type="text" th:field="*{schoolName}"
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Talent Name</label>
+                                <input type="text" th:field="*{talentName}"
                                        class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">School's Code</label>
-                                <input type="text" th:field="*{schoolCode}"
-                                       class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Type of Resource</label>
-                                <input type="text" th:field="*{resourceType}"
-                                       class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Quantity Required</label>
-                                <input type="number" th:field="*{quantity}"
-                                       class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">status</label>
+                                <select th:field="*{status}"
+                                        class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                    <option value="">Select Priority</option>
+                                    <option value="open">Open</option>
+                                    <option value="close">Close</option>
+                                </select>
                             </div>
 
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                <textarea th:field="*{description}" rows="2"
-                                          class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Justification</label>
-                                <textarea th:field="*{justification}" rows="2"
-                                          class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Date Needed</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
                                 <input type="date"
-                                       th:field="*{dateNeeded}"
+                                       th:field="*{dueDate}"
                                        onfocus="this.showPicker()"
                                        class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 cursor-pointer"
                                        style="position: relative; z-index: 10;">
                             </div>
 
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                                <select th:field="*{priority}"
-                                        class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                                    <option value="">Select Priority</option>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
-                            </div>
-
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Additional Comments</label>
-                                <textarea th:field="*{additionalComment}" rows="2"
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea th:field="*{description}" rows="2"
                                           class="block w-full rounded-md border-2 border-gray-300 px-3 py-1.5 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
                             </div>
                         </div>

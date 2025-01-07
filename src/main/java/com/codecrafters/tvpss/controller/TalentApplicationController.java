@@ -47,7 +47,6 @@ public class TalentApplicationController {
 
     @PostMapping("/submitTalentRequest")
     public String submitForm(TalentApplicationModel request, Model model) {
-        // Process the request object as needed
         model.addAttribute("message", "Request submitted successfully!");
         return "/talent-application/manage-talent-application";
     }
@@ -55,8 +54,9 @@ public class TalentApplicationController {
     @PostMapping("/submitTalentPostRequest")
     public String submitTalentPostForm(TalentPostModel request, Model model) {
         // Process the request object as needed
+        applicationService.addPost(request);
         model.addAttribute("message", "Request submitted successfully!");
-        return "manage-talent-post";
+        return "redirect:/talentPost-list";
     }
 
 

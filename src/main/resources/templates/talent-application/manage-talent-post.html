@@ -13,12 +13,19 @@
 
         /* Additional custom styles */
         .table-container {
-            max-height: 400px;
+            height: auto;
+            /*max-height: 600px;*/
             overflow-y: auto;
         }
         .header {
             background-color: #000;
             color: #fff;
+        }
+
+        .full-height-table {
+            height: 100%;
+            width: 100%;
+            min-height: 100%;
         }
     </style>
 </head>
@@ -123,7 +130,7 @@
                 </div>
                     <!-- Table -->
                     <div class="table-container border">
-                        <table class="w-full text-left">
+                        <table class=" w-full text-left">
                             <thead class="header">
                             <tr>
                                 <th class="px-4 py-2">ID</th>

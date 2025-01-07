@@ -1,5 +1,6 @@
 package com.codecrafters.tvpss.dao;
 
+import com.codecrafters.tvpss.model.ResourceRequestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.codecrafters.tvpss.model.TalentPostModel;
@@ -28,16 +29,29 @@ public class PostTalentDao {
         return List.of();
     }
 
+    public void save(TalentPostModel request) {
+        String sql = "INSERT INTO post_talent (talent_name, description, due_date, status) " +
+                "VALUES (?, ?, ?, ?)";
+
+        jdbcTemplate.update(sql,
+                request.getTalentName(),
+                request.getDescription(),
+                request.getDueDate(),
+                request.getStatus()
+        );
+    }
+
     private static class TalentPostRowMapper implements RowMapper<TalentPostModel> {
         @Override
         public TalentPostModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             TalentPostModel request = new TalentPostModel();
             request.setId(rs.getLong("id"));
-            request.setTalentName(rs.getString("talentName"));
+            request.setTalentName(rs.getString("talent_name"));
             request.setDescription(rs.getString("description"));
-            request.setDueDate(rs.getString("dueDate"));
+            request.setDueDate(rs.getString("due_date"));
             request.setStatus(rs.getString("status"));
             return request;
         }
     }
+
 }

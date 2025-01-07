@@ -1,5 +1,6 @@
 package com.codecrafters.tvpss.service;
 
+import com.codecrafters.tvpss.model.ResourceRequestModel;
 import com.codecrafters.tvpss.model.TalentPostModel;
 import com.codecrafters.tvpss.dao.PostTalentDao;
 import com.codecrafters.tvpss.model.TalentApplicationModel;
@@ -26,6 +27,11 @@ public class TalentApplicationService {
 
     public List<TalentPostModel> getAllPostTalent() {
         return postTalentDao.findAll();
+    }
+
+    public TalentPostModel addPost(TalentPostModel request) {
+        postTalentDao.save(request);
+        return request;
     }
 
 }
