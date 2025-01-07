@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -33,6 +36,20 @@ public class TalentApplicationController {
     @GetMapping("/talentPost-form")
     public String showTalentPostForm(Model model) {
         model.addAttribute("talentPostRequest", new TalentPostModel());
+        return "/talent-application/create-talent-post";
+    }
+
+    @GetMapping("/talentPost-form/update/{id}")
+    public String showUpdateTalentPostForm(Model model,@PathVariable String id,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            TalentPostModel talentPost = applicationService.findById(id);
+            model.addAttribute("talentPost", talentPost);
+//            applicationService.updatePost(id);
+            redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to reject request");
+        }
         return "/talent-application/update-talent-post";
     }
 
@@ -55,6 +72,14 @@ public class TalentApplicationController {
     public String submitTalentPostForm(TalentPostModel request, Model model) {
         // Process the request object as needed
         applicationService.addPost(request);
+        model.addAttribute("message", "Request submitted successfully!");
+        return "redirect:/talentPost-list";
+    }
+
+    @PostMapping("/submitEditTalentPost")
+    public String submitEditTalentPostForm(TalentPostModel request, Model model) {
+        // Process the request object as needed
+        applicationService.updatePost(request);
         model.addAttribute("message", "Request submitted successfully!");
         return "redirect:/talentPost-list";
     }

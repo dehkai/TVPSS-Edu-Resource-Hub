@@ -25,6 +25,10 @@ public class TalentApplicationService {
                 .toList();
     }
 
+    public TalentPostModel findById(String id) {
+            return postTalentDao.findById(Long.parseLong(id));
+    }
+
     public List<TalentPostModel> getAllPostTalent() {
         return postTalentDao.findAll();
     }
@@ -32,6 +36,10 @@ public class TalentApplicationService {
     public TalentPostModel addPost(TalentPostModel request) {
         postTalentDao.save(request);
         return request;
+    }
+
+    public void  updatePost(TalentPostModel request) {
+        postTalentDao.update(request);
     }
 
 }
