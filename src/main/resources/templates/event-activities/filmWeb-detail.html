@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Webinar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col items-center min-h-screen py-10">
+    <!-- Unified View -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden max-w-3xl w-full">
+        <div class="w-full h-64 bg-cover bg-center" style="background-image: url('https://i.ytimg.com/vi/juXIYrY_Btk/maxresdefault.jpg');">
+        </div>
+        <div class="p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Film Webinar</h1>
+            <p class="text-sm text-gray-500 mb-6">Created by Team Haziq · Sept 23 · 15 min read</p>
+            <p class="text-base text-gray-700 mb-4">Join us to learn the art of filmmaking and storytelling through visual media.</p>
+            <div class="flex flex-col gap-2 text-sm text-gray-600 mb-6">
+                <p><span class="font-semibold">Date:</span> 23 September 2024</p>
+                <p><span class="font-semibold">Time:</span> 10:00am - 3:00pm</p>
+                <p><span class="font-semibold">Location:</span> UTM Film Center, Hall 3</p>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">What Awaits You</h2>
+            <p class="text-base text-gray-700 leading-relaxed mb-4">Join us for an immersive experience where you will:</p>
+            <ul class="text-gray-700 text-base mb-6 list-disc list-inside">
+                <li class="mb-2">Master the fundamentals of filmmaking.</li>
+                <li class="mb-2">Dive into the art of visual storytelling.</li>
+                <li class="mb-2">Gain wisdom from seasoned professionals.</li>
+                <li class="mb-2">Engage in lively Q&A sessions.</li>
+            </ul>
+            <p class="text-base text-gray-700 leading-relaxed mb-4">Ideal for:</p>
+            <ul class="text-gray-700 text-base list-disc list-inside">
+                <li class="mb-2">Students and budding filmmakers.</li>
+                <li class="mb-2">Content creators and vloggers.</li>
+                <li class="mb-2">Enthusiasts of visual storytelling.</li>
+            </ul>
+            <button onclick="window.location.href='/dashboard/student'" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 mt-4">Back</button>
+        </div>
+    </div>
+
+    <!-- Recent Posts -->
+    <div class="bg-orange-100 rounded-lg shadow-md mt-10 w-full max-w-3xl">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 px-6">Recent Posts</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 pb-10">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://www.roccoresearch.com/wp-content/uploads/2020/11/PHOTOGRAPHY-COMPETITION-scaled.jpg" alt="Photoshoot Competition" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Photoshoot Competition</h3>
+                    <p class="mt-1 text-sm text-gray-500">Aug 22 - Explore the world with another vision.</p>
+                    <div class="flex justify-between items-center mt-2 mb-3 border-t pt-2">
+                        <div class="flex items-center gap-1 text-gray-600">
+                            <span class="text-sm text-gray-600">192 views · 8 comments</span>
+                        </div>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 015.656 5.656l-7.071 7.071a.5.5 0 01-.707 0l-7.071-7.071a4 4 0 010-5.656z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/046/896/919/small/camera-andgraphs-lying-on-a-plain-surface-on-beautiful-background-top-view-photo.jpg" alt="TVPSS Exhibition" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">TVPSS Exhibition</h3>
+                    <p class="mt-1 text-sm text-gray-500">Jun 22 - Let us gather and share our experience.</p>
+                    <div class="flex justify-between items-center mt-2 mb-3 border-t pt-2">
+                        <div class="flex items-center gap-1 text-gray-600">
+                            <span class="text-sm text-gray-600">152 views · 4 comments</span>
+                        </div>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 015.656 5.656l-7.071 7.071a.5.5 0 01-.707 0l-7.071-7.071a4 4 0 010-5.656z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
