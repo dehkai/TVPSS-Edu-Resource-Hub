@@ -18,6 +18,11 @@ public class PostTalentDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public TalentPostModel findById(Long id) {
+        String sql = "SELECT * FROM post_talent WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new TalentPostRowMapper(), id);
+    }
+
     public List<TalentPostModel> findAll() {
         String sql = "SELECT * FROM post_talent ORDER BY id ASC";
         try {
@@ -39,6 +44,24 @@ public class PostTalentDao {
                 request.getDueDate(),
                 request.getStatus()
         );
+    }
+
+    public void update(TalentPostModel request) {
+        logger.info("Updating post talent data: " + request.getDescription());
+        String sql = "UPDATE post_talent SET talent_name=?, description=?, due_date=?, " +
+                "status=? WHERE id=?";
+        try {
+        jdbcTemplate.update(sql,
+                request.getTalentName(),
+                request.getDescription(),
+                request.getDueDate(),
+                request.getStatus(),
+                request.getId()
+        );
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
     }
 
     private static class TalentPostRowMapper implements RowMapper<TalentPostModel> {
