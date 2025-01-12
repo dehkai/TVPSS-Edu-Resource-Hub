@@ -189,7 +189,7 @@
         <!-- Resource Requests Table -->
         <div class="bg-white rounded-lg border">
           <div class="p-4 border-b flex justify-between items-center">
-            <h3 class="text-lg font-semibold">Resource Requests</h3>
+            <h3 class="text-lg font-semibold">Candidate List</h3>
             <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Pending</span>
           </div>
 
@@ -203,11 +203,11 @@
                 <th class="px-6 py-3 text-left tracking-wider">Name</th>
                 <th class="px-6 py-3 text-left tracking-wider">Age</th>
                 <th class="px-6 py-3 text-left tracking-wider">Apply Date</th>
-                <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>
                 <th class="px-6 py-3 text-left tracking-wider">Interview Feedback</th>
                 <th class="px-6 py-3 text-left tracking-wider">Interview date</th>
                 <th class="px-6 py-3 text-left tracking-wider">Interview time</th>
                 <th class="px-6 py-3 text-left tracking-wider">Interview status</th>
+                <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>
                 <th class="px-6 py-3 text-left tracking-wider">Profile</th>
                 <th class="px-6 py-3 text-left tracking-wider">interview</th>
                 <th class="px-6 py-3 text-left tracking-wider">Update Status</th>
@@ -240,9 +240,6 @@
                   <div class="text-sm font-medium" th:text="${post.apply_date}">Apply Date</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>
-                </td>
-                <td class="px-6 py-4">
                   <div class="text-sm font-medium" th:text="${post.feedback}">Interview Feedback</div>
                 </td>
                 <td class="px-6 py-4">
@@ -255,28 +252,73 @@
                   <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>
                 </td>
                 <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>
+                </td>
+                <td class="px-6 py-4">
                   <button th:onclick="/"
                           class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
                     Profile
                   </button>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="flex space-x-2" th:if="${post.interview_status == 'pending'}">
-                    <button th:onclick="/"
+
+                  <!-- Else if interview_status is '-' -->
+                  <div class="flex space-x-2" >
+                    <!-- Button for 'Create' -->
+                    <a th:href="@{/admin/interview/{id}(id=${post.interview_id})}"
+                            th:if="${post.interview_status == '-' && post.candidate_status != 'rejected' && post.candidate_status != 'approved'}"
+                            class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 text-center">
+                      Set Schedule
+                    </a>
+
+                    <!-- Button for 'Edit' -->
+                    <div class="flex flex-col space-y-2" th:if="${post.interview_status != '-' && post.candidate_status != 'rejected' && post.candidate_status != 'approved' && post.interview_status != 'rejected' && post.interview_status != 'approved'}">
+                      <a th:href="@{/admin/interview/{id}(id=${post.interview_id})}"
+                         class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 text-center">
+                        Edit
+                      </a>
+
+                      <button th:onclick="'openModal(\'approveModal\', \'' + ${post.interview_id} + '\')'"
                             class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
                       Approve
                     </button>
-                    <button th:onclick="/"
+                    <button th:onclick="'openModal(\'rejectModal\', \'' + ${post.interview_id} + '\')'"
                             class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
                       Reject
                     </button>
-                  </div>
-
-                  <!-- Else if interview_status is '-' -->
-                  <div class="flex space-x-2" th:if="${post.interview_status == '-'}">
+                    </div>
+                    <!-- Button for 'Done' -->
+                    <div class="flex justify-center">
                     <button th:onclick="/"
-                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
-                      Create
+                            th:if="${post.candidate_status == 'rejected' || post.candidate_status == 'approved' || post.interview_status == 'rejected' || post.interview_status == 'approved'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 "
+                            disabled>
+                      Done
+                    </button>
+                      </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-4">
+                  <div class="flex flex-col space-y-2" >
+                    <form th:action="@{/talentPostCandidate-list/{id}/approve(id=${post.id})}" method="post">
+                    <button type="submit" th:if="${post.interview_status == 'approved' && post.candidate_status == 'pending'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                      Approve
+                    </button>
+                    </form>
+                    <form th:action="@{/talentPostCandidate-list/{id}/reject(id=${post.id})}" method="post">
+                      <button type="submit" th:if="${post.candidate_status == 'pending'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                      Reject
+                    </button>
+                    </form>
+                    <!-- Button for 'Done' -->
+                    <button th:onclick="/"
+                            th:if="${post.candidate_status == 'rejected' || post.candidate_status == 'approved'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700"
+                            disabled>
+                      Done
                     </button>
                   </div>
                 </td>
@@ -297,5 +339,86 @@
     </p>
   </div>
 </footer>
+
+<!-- Modals -->
+<div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Approve Interview</h3>
+      <div class="mt-2">
+        <form method="post" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Feedback</label>
+            <textarea name="feedback" rows="3"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                      required></textarea>
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button type="button" onclick="closeModal('approveModal')"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Reject Interview</h3>
+      <div class="mt-2">
+        <form method="post" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Reason for Rejection</label>
+            <textarea name="feedback" rows="3"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                      required></textarea>
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button type="button" onclick="closeModal('rejectModal')"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  function openModal(modalId, requestId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    const form = document.querySelector('#' + modalId + ' form');
+    form.action = '/admin/interview/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal when clicking outside
+  window.onclick = function(event) {
+    const approveModal = document.getElementById('approveModal');
+    const rejectModal = document.getElementById('rejectModal');
+    if (event.target === approveModal || event.target === rejectModal) {
+      closeModal(event.target.id);
+    }
+  }
+</script>
 </body>
 </html>

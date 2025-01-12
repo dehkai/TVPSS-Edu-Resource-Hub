@@ -38,6 +38,10 @@ public class TalentApplicationService {
         return postTalentDao.findAllCandidate();
     }
 
+    public List<TalentPostCandidateModel> getAllPostTalentCandidateByUserProfileId(int userProfileId) {
+        return postTalentDao.findAllCandidateByUserProfileId(userProfileId);
+    }
+
     public List<TalentPostModel> getThreePostTalent() {
         return postTalentDao.findThreePost();
     }
@@ -49,6 +53,10 @@ public class TalentApplicationService {
 
     public void  updatePost(TalentPostModel request) {
         postTalentDao.update(request);
+    }
+
+    public void updateStatusApprove(int id, String status) {
+        postTalentDao.updateStatusApprove(id,status);
     }
 
     public void  addPostCandidate(TalentPostModel request, int user_profile_id, int interview_id) {

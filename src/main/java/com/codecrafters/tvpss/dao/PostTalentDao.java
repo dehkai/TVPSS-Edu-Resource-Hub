@@ -53,6 +53,24 @@ public class PostTalentDao {
         return List.of();
     }
 
+    public List<TalentPostCandidateModel> findAllCandidateByUserProfileId(int user_profile_id) {
+        String sql = "SELECT ptc.id AS candidate_id, pt.talent_name, up.username, up.name, ptc.post_talent_id , ptc.user_profile_id , ptc.interview_id, " +
+                "up.age, ptc.apply_date, ptc.candidate_status , i.feedback, i.status AS interview_status, i.date AS interview_date, i.time AS interview_time " +
+                "FROM post_talent_candidate ptc " +
+                "JOIN post_talent pt ON ptc.post_talent_id = pt.id " +
+                "JOIN user_profile up ON ptc.user_profile_id = up.id " +
+                "JOIN interview i ON ptc.interview_id = i.id " +
+                "WHERE ptc.user_profile_id = ? " +
+                "ORDER BY ptc.apply_date DESC";
+        try {
+            return jdbcTemplate.query(sql, new TalentPostCandidateRowMapper(),user_profile_id);
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
+        return List.of();
+    }
+
     public List<TalentPostModel> findThreePost() {
         String sql = "SELECT * FROM post_talent ORDER BY id ASC LIMIT 3";
         try {
@@ -89,6 +107,19 @@ public class PostTalentDao {
                 request.getStatus(),
                 request.getId()
         );
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
+    }
+
+    public void updateStatusApprove(int id, String status) {
+        String sql = "UPDATE post_talent_candidate SET candidate_status=? WHERE id=?";
+        try {
+            jdbcTemplate.update(sql,
+                    status,
+                    id
+            );
         } catch (Exception e) {
             logger.error("Error fetching post talent data: ", e);
             // You can throw a custom exception or return an empty list, depending on your needs.
