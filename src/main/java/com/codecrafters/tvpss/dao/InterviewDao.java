@@ -57,7 +57,7 @@ public class InterviewDao {
 
         jdbcTemplate.update(sql,
                 "-",
-                "Pending",
+                "pending",
                 "-",
                 "-",
                 ""

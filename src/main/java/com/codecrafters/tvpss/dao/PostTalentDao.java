@@ -134,7 +134,7 @@ public class PostTalentDao {
                 request.getId(),
                 user_profile_id,
                 LocalDate.now(),
-                "Pending",
+                "pending",
                 interview_id
         );
     }
