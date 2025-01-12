@@ -6,7 +6,7 @@ import com.codecrafters.tvpss.service.ResourceRequestService;
 import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
-
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.List;
 
 @Controller
 public class ResourceRequestController {
@@ -116,6 +117,14 @@ public class ResourceRequestController {
     @GetMapping("/officer-reports-dashboard")
     public String showReportsDashboard() {
         return "reports-dashboard/officer-reports-dashboard";
+    }
+
+    @GetMapping("/resource-request/list")
+    public String listRequests(Model model, HttpSession session) {
+        String schoolCode = (String) session.getAttribute("schoolCode");
+        List<ResourceRequestModel> requests = resourceRequestService.findBySchoolCode(schoolCode);
+        model.addAttribute("requests", requests);
+        return "resource-request/resource-request-list";
     }
 }
 
