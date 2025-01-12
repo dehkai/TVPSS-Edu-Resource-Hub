@@ -217,16 +217,20 @@
                                         <div class="text-sm">
                                             <div>Needed by: <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}">Jan 10, 2024</span></div>
                                             <div class="text-gray-500">Submitted: <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}">Dec 15, 2023</span></div>
-                                            <span th:class="${request.priority == 'High' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-red-100 text-red-800' : 
-                                                   (request.priority == 'Medium' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
-                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-green-100 text-green-800')}"
-                                                  th:text="${request.priority}">
+                                            <span th:class="${request.priority == 'high' || request.priority == 'High' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-red-100 text-red-800' : 
+                                                   (request.priority == 'medium' || request.priority == 'Medium' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
+                                                   (request.priority == 'low' || request.priority == 'Low' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-green-100 text-green-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                                                  th:text="${#strings.capitalize(#strings.toLowerCase(request.priority))}">
                                                 High
                                             </span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800" th:text="${request.status}">
+                                        <span th:class="${request.status == 'pending' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800' :
+                                                (request.status == 'approved' ? 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800' :
+                                                'px-2 py-1 text-xs rounded-full bg-red-100 text-red-800')}"
+                                              th:text="${#strings.capitalize(#strings.toLowerCase(request.status))}">
                                             pending
                                         </span>
                                     </td>
