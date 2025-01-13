@@ -57,7 +57,7 @@ public class InterviewDao {
 
         jdbcTemplate.update(sql,
                 "-",
-                "Pending",
+                "pending",
                 "-",
                 "-",
                 ""
@@ -115,8 +115,9 @@ public class InterviewDao {
     }
 
     public void update(InterviewModel interview) {
-        String sql = "UPDATE interview SET post_talent_id = ?, time = ?, date = ?, feedback = ?, status = ? " +
+        String sql = "UPDATE interview SET post_talent_id = ?, time = ?, date = ?, feedback = ?, status = ?, username = ? " +
                 "WHERE id = ?";
+        System.out.println("this is username"+ interview.getUsername());
         try {
             jdbcTemplate.update(sql,
                     interview.getPost_talent_id(),
@@ -124,7 +125,36 @@ public class InterviewDao {
                     interview.getDate(),
                     interview.getFeedback(),
                     interview.getStatus(),
+                    interview.getUsername(),
                     interview.getId()
+            );
+        } catch (Exception e) {
+            logger.error("Error updating interview data: ", e);
+        }
+    }
+
+    public void rejectInterview(int id, String status, String feedback) {
+        String sql = "UPDATE interview SET feedback = ?, status = ? " +
+                "WHERE id = ?";
+        try {
+            jdbcTemplate.update(sql,
+                    feedback,
+                    status,
+                    id
+            );
+        } catch (Exception e) {
+            logger.error("Error updating interview data: ", e);
+        }
+    }
+
+    public void approveInterview(int id, String status, String feedback) {
+        String sql = "UPDATE interview SET feedback = ?, status = ? " +
+                "WHERE id = ?";
+        try {
+            jdbcTemplate.update(sql,
+                    feedback,
+                    status,
+                    id
             );
         } catch (Exception e) {
             logger.error("Error updating interview data: ", e);
@@ -150,6 +180,7 @@ public class InterviewDao {
             interview.setDate(rs.getString("date"));
             interview.setFeedback(rs.getString("feedback"));
             interview.setStatus(rs.getString("status"));
+            interview.setUsername(rs.getString("username"));
             return interview;
         }
     }

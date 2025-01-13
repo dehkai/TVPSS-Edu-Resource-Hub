@@ -1,5 +1,6 @@
 package com.codecrafters.tvpss.controller;
 
+import com.codecrafters.tvpss.dao.PostTalentDao;
 import com.codecrafters.tvpss.model.TalentApplicationModel;
 import com.codecrafters.tvpss.model.TalentPostModel;
 import com.codecrafters.tvpss.model.UserProfileModel;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public class TalentApplicationController {
     private UserProfileService userProfileService;
     @Autowired
     private InterviewService interviewService;
+    @Autowired
+    private PostTalentDao postTalentDao;
 
     @GetMapping("/talent-form")
     public String showForm(Model model) {
@@ -78,6 +82,17 @@ public class TalentApplicationController {
         System.out.println("Talent Post List Size: " + talentPostCandidateList.size());  // Debug log
         model.addAttribute("talentPostCandidateList", talentPostCandidateList);
         return "/talent-application/manage-talent-post-candidate";
+    }
+
+    @GetMapping("/dashboard/student/talentPostCandidate-list")
+    public String showStudentCandidateList(HttpSession session,Model model) {
+//        model.addAttribute("interviewRequest", new InterviewModel());
+        String userName = (String) session.getAttribute("username");
+        UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
+        List<TalentPostCandidateModel> talentPostCandidateList = applicationService.getAllPostTalentCandidateByUserProfileId(userProfileModel.getId());
+        System.out.println("Talent Post List Size: " + talentPostCandidateList.size());  // Debug log
+        model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        return "/interview/student-interview-list";
     }
 
     @PostMapping("/submitTalentRequest")
@@ -132,6 +147,25 @@ public class TalentApplicationController {
         applicationService.addPostCandidate(request,userProfileModel.getId(),interview_id);
         model.addAttribute("message", "Request submitted successfully!");
         return "redirect:/dashboard/student";
+    }
+
+    @PostMapping("/talentPostCandidate-list/{id}/approve")
+    public String approvePostCandidate(@PathVariable int id,
+                                   RedirectAttributes redirectAttributes) {
+        String status = "approved";
+        applicationService.updateStatusApprove(id, status);
+        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        return "redirect:/talentPostCandidate-list";
+    }
+
+    @PostMapping("/talentPostCandidate-list/{id}/reject")
+    public String rejectPostCandidate(@PathVariable int id,
+                                       RedirectAttributes redirectAttributes) {
+        String status = "rejected";
+        System.out.println("This is id and status" +id);
+        postTalentDao.updateStatusApprove(id, status);
+        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        return "redirect:/talentPostCandidate-list";
     }
 
 
