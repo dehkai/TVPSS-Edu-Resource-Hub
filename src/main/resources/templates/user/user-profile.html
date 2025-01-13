@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 p-8">
-
+<div th:object="${userProfile}" >
 <!-- Profile Section -->
 <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
     <div class="p-8 lg:flex lg:items-center lg:space-x-8">
@@ -18,7 +18,7 @@
 
         <!-- Candidate Info -->
         <div class="mt-4 lg:mt-0 lg:flex-grow">
-            <h1 class="text-3xl font-bold text-gray-900">Fidaus</h1>
+            <h1 class="text-3xl font-bold text-gray-900" th:text="*{name}" >Fidaus</h1>
             <div class="flex flex-col sm:flex-row sm:justify-between mt-2">
                 <p class="text-gray-600">Job Location<br>Kuala Lumpur, Malaysia</p>
                 <p class="text-gray-600">Type of Employment<br>Part Time</p>
@@ -31,7 +31,7 @@
 <!-- About Me Section -->
 <div class="max-w-4xl mx-auto bg-gray-50 rounded-lg shadow-lg mt-8 p-8">
     <h2 class="text-2xl font-semibold text-gray-900">About me</h2>
-    <p class="mt-4 text-gray-700">
+    <p class="mt-4 text-gray-700" th:text="*{about_me}">
         Fidaus, a 20-year-old student with a strong passion for leadership and organization, has demonstrated his capabilities by leading the school's debate team to regional championships and serving as the President of the Student Council. Known for his excellent communication skills, Fidaus is adept at coordinating events and managing teams, making him a standout candidate for the Program Coordinator role.
     </p>
 </div>
@@ -42,31 +42,32 @@
 
     <!-- Skills -->
     <h3 class="text-lg font-semibold text-gray-800 mt-4">Skills:</h3>
-    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">
-        <li>Leadership: Led the school’s debate team to regional championships.</li>
-        <li>Organizational: Successfully coordinated multiple school events and fundraisers.</li>
-        <li>Communication: Strong public speaking skills and experienced in mediating group discussions.</li>
-    </ul>
+<!--    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">-->
+<!--        <li>Leadership: Led the school’s debate team to regional championships.</li>-->
+<!--        <li>Organizational: Successfully coordinated multiple school events and fundraisers.</li>-->
+<!--        <li>Communication: Strong public speaking skills and experienced in mediating group discussions.</li>-->
+<!--    </ul>-->
+    <p class="mt-4 text-gray-700" th:text="*{skill}">
+        Fidaus, a 20-year-old student with a strong passion for leadership and organization, has demonstrated his capabilities by leading the school's debate team to regional championships and serving as the President of the Student Council. Known for his excellent communication skills, Fidaus is adept at coordinating events and managing teams, making him a standout candidate for the Program Coordinator role.
+    </p>
 
     <!-- Experience -->
     <h3 class="text-lg font-semibold text-gray-800 mt-4">Experience:</h3>
-    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">
-        <li>President of the Student Council.</li>
-        <li>Volunteer coordinator for the annual school charity drive.</li>
-    </ul>
+    <p class="mt-4 text-gray-700" th:text="*{experience}">
+        Fidaus, a 20-year-old student with a strong passion for leadership and organization, has demonstrated his capabilities by leading the school's debate team to regional championships and serving as the President of the Student Council. Known for his excellent communication skills, Fidaus is adept at coordinating events and managing teams, making him a standout candidate for the Program Coordinator role.
+    </p>
 
     <!-- Qualifications -->
     <h3 class="text-lg font-semibold text-gray-800 mt-4">Qualifications:</h3>
-    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">
-        <li>Strong leadership and organizational background.</li>
-        <li>Proven ability to manage multiple tasks and lead teams.</li>
-    </ul>
+    <p class="mt-4 text-gray-700" th:text="*{qualifications}">
+        Fidaus, a 20-year-old student with a strong passion for leadership and organization, has demonstrated his capabilities by leading the school's debate team to regional championships and serving as the President of the Student Council. Known for his excellent communication skills, Fidaus is adept at coordinating events and managing teams, making him a standout candidate for the Program Coordinator role.
+    </p>
 </div>
 
 <!-- Button -->
 <div class="max-w-4xl mx-auto mt-8 text-center">
-    <button class="bg-purple-600 text-white py-3 px-8 rounded-md font-semibold hover:bg-purple-700 transition duration-200">Next</button>
+    <button onclick="history.back()" class="bg-purple-600 text-white py-3 px-8 rounded-md font-semibold hover:bg-purple-700 transition duration-200">Back</button>
 </div>
-
+</div>
 </body>
 </html>

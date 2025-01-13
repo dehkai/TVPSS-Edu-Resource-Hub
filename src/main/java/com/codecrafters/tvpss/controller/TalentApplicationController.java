@@ -158,12 +158,14 @@ public class TalentApplicationController {
         return "redirect:/talentPostCandidate-list";
     }
 
-    @PostMapping("/talentPostCandidate-list/{id}/reject")
-    public String rejectPostCandidate(@PathVariable int id,
+    @PostMapping("/talentPostCandidate-list/{id}/{idInterview}/reject")
+    public String rejectPostCandidate(@PathVariable int id, @PathVariable int idInterview,
                                        RedirectAttributes redirectAttributes) {
         String status = "rejected";
+        String feedback = "rejected";
         System.out.println("This is id and status" +id);
-        postTalentDao.updateStatusApprove(id, status);
+        applicationService.updateStatusApprove(id, status);
+        interviewService.rejectInterview(idInterview,status,feedback);
         redirectAttributes.addFlashAttribute("message", "Request approved successfully");
         return "redirect:/talentPostCandidate-list";
     }

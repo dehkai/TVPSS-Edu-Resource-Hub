@@ -214,7 +214,13 @@
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
-              <tr th:each="post : ${talentPostCandidateList}" class="hover:bg-gray-50">
+<!--              th:classappend="${post.candidate_status == 'approved'-->
+<!--              ? 'bg-green-100'-->
+<!--              : (post.candidate_status == 'rejected'-->
+<!--              ? 'bg-red-100'-->
+<!--              : '')}"-->
+              <tr th:each="post : ${talentPostCandidateList}"
+                  class="hover:bg-blue-50">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class="text-sm font-medium" th:text="${post.id}">1</span>
                 </td>
@@ -249,16 +255,32 @@
                   <div class="text-sm font-medium" th:text="${post.interview_time}">Interview Time</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>
+<!--                  <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>-->
+                  <span th:class="${post.interview_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.interview_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.interview_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(post.interview_status))}">
+                                                High
+                                            </span>
+
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>
+<!--                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>-->
+
+                  <span th:class="${post.candidate_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.candidate_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.candidate_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(post.candidate_status))}">
+                                                High
+                                            </span>
                 </td>
                 <td class="px-6 py-4">
-                  <button th:onclick="/"
-                          class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                  <a th:href="@{/talentPostCandidate-list/profile/{id}(id=${post.user_profile_id})}"
+                          class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 text-center">
                     Profile
-                  </button>
+                  </a>
                 </td>
                 <td class="px-6 py-4">
 
@@ -300,14 +322,15 @@
                 </td>
 
                 <td class="px-6 py-4">
-                  <div class="flex flex-col space-y-2" >
+                  <div class="flex space-x-2" >
+                    <div class="flex flex-col space-y-2">
                     <form th:action="@{/talentPostCandidate-list/{id}/approve(id=${post.id})}" method="post">
-                    <button type="submit" th:if="${post.interview_status == 'approved' && post.candidate_status == 'pending'}"
+                      <button type="submit" th:if="${post.interview_status == 'approved' && post.candidate_status == 'pending'}"
                             class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
                       Approve
                     </button>
                     </form>
-                    <form th:action="@{/talentPostCandidate-list/{id}/reject(id=${post.id})}" method="post">
+                    <form th:action="@{/talentPostCandidate-list/{id}/{idInterview}/reject(id=${post.id}, idInterview=${post.interview_id})}" method="post">
                       <button type="submit" th:if="${post.candidate_status == 'pending'}"
                             class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
                       Reject
@@ -316,10 +339,10 @@
                     <!-- Button for 'Done' -->
                     <button th:onclick="/"
                             th:if="${post.candidate_status == 'rejected' || post.candidate_status == 'approved'}"
-                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700"
-                            disabled>
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700">
                       Done
                     </button>
+                    </div>
                   </div>
                 </td>
               </tr>
