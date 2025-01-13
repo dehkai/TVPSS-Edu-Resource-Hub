@@ -1,6 +1,7 @@
 package com.codecrafters.tvpss.dao;
 
 import com.codecrafters.tvpss.model.ResourceRequestModel;
+import com.codecrafters.tvpss.model.TalentPostModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.codecrafters.tvpss.model.UserProfileModel;
@@ -22,6 +23,22 @@ public class UserProfileDao {
     public UserProfileModel findByUsername(String username) {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         return jdbcTemplate.queryForObject(sql, new UserProfileRowMapper(), username);
+    }
+
+    public UserProfileModel findById( int id) {
+        String sql = "SELECT * FROM user_profile WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new UserProfileRowMapper(), id);
+    }
+
+    public List<UserProfileModel> findAll() {
+        String sql = "SELECT * FROM user_profile ORDER BY id ASC";
+        try {
+            return jdbcTemplate.query(sql, new UserProfileDao.UserProfileRowMapper());
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
+        return List.of();
     }
 
     private static class UserProfileRowMapper implements RowMapper<UserProfileModel> {
