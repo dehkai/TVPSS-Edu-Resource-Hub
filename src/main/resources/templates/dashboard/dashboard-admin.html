@@ -101,11 +101,32 @@
 
                     <!-- Quick Actions Grid -->
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        <!-- Candidates Management Card -->
+                        <!-- Program Status Card -->
                         <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                             <div class="p-6">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-gray-900">Programs' Status</h2>
+                                        <p class="mt-1 text-sm text-gray-500">Manage school's program status</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <a href="/program-status" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                        Submit Program Status
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Candidates Management Card -->
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                            <div class="p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
                                         <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                                         </svg>
@@ -116,7 +137,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/talentPostCandidate-list" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                    <a href="/talentPostCandidate-list" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-blue-700">
                                         View Candidates
                                     </a>
                                 </div>
