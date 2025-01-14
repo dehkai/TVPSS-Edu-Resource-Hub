@@ -47,10 +47,16 @@ public class InterviewService {
         interviewDao.update(interview);
     }
 
+    public void rejectInterview(int id, String status, String feedback) {
+        interviewDao.rejectInterview(id,status,feedback);
+    }
+
+    public void approveInterview(int id, String status, String feedback) {
+        interviewDao.approveInterview(id,status,feedback);
+    }
     public void deleteInterview(int id) {
         interviewDao.deleteById(id);
     }
-
 
 
 //    public void approveRequest(Long id) {

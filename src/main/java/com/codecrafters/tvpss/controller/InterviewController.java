@@ -5,10 +5,8 @@ import com.codecrafters.tvpss.service.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class InterviewController {
@@ -17,23 +15,45 @@ public class InterviewController {
     @Autowired
     private InterviewService interviewService;
 
-    @GetMapping("/interview-request")
-    public String showForm(Model model) {
-        model.addAttribute("interviewRequest", new InterviewModel());
+    @GetMapping("/admin/interview/{id}")
+    public String showForm(Model model,@PathVariable String id) {
+        int interviewId = Integer.parseInt(id);
+        InterviewModel interviewModel = interviewService.getInterviewById(interviewId);
+        model.addAttribute("interview", interviewModel);
         return "/interview/interview-form";
     }
 
     @GetMapping("/interview-list")
     public String showInterviewList(Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
-        return "/interview/interview-list";
+        return "student-interview-list";
     }
 
-    @PostMapping("/submitInterviewRequest")
+    @PostMapping("/submitUpdateInterview")
     public String submitForm(InterviewModel request, Model model) {
         // Process the request object as needed
+        interviewService.updateInterview(request);
         model.addAttribute("message", "Request submitted successfully!");
-        return "/interview/interview-form";
+        return "redirect:/talentPostCandidate-list";
+    }
+    @PostMapping("/admin/interview/{id}/approve")
+    public String approveInterview(@PathVariable int id,
+                                 @RequestParam String feedback,
+                                 RedirectAttributes redirectAttributes) {
+        String status = "approved";
+        interviewService.approveInterview(id, status, feedback);
+        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        return "redirect:/talentPostCandidate-list";
+    }
+
+    @PostMapping("/admin/interview/{id}/reject")
+    public String rejectInterview(@PathVariable int id,
+                                 @RequestParam String feedback,
+                                 RedirectAttributes redirectAttributes) {
+        String status = "rejected";
+        interviewService.rejectInterview(id, status, feedback);
+        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        return "redirect:/talentPostCandidate-list";
     }
 //
 //
