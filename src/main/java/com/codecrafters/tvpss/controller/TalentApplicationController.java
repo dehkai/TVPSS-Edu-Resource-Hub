@@ -88,6 +88,15 @@ public class TalentApplicationController {
         return "/talent-application/manage-talent-post";
     }
 
+    @GetMapping("/talentPost-list/open")
+    public String showOpenTalentPostList(Model model) {
+//        model.addAttribute("interviewRequest", new InterviewModel());
+        List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
+        System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
+        model.addAttribute("talentPostList", talentPostList);
+        return "/talent-application/manage-talent-post";
+    }
+
     @GetMapping("/talentPostCandidate-list")
     public String showTalentPosCandidateList(Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
@@ -176,7 +185,7 @@ public class TalentApplicationController {
 
     @GetMapping("/dashboard/student/talent-post/view-all")
     public String showAllPostList(Model model) {
-        List<TalentPostModel> talentPostList = applicationService.getAllPostTalent();
+        List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
         System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
         model.addAttribute("talentPostList", talentPostList);
 //        model.addAttribute("interviewRequest", new InterviewModel());

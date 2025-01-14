@@ -38,6 +38,10 @@ public class TalentApplicationService {
         return postTalentDao.findAll();
     }
 
+    public List<TalentPostModel> getAllOpenPostTalent() {
+        return postTalentDao.findAllOpen();
+    }
+
     public List<TalentPostCandidateModel> getAllPostTalentCandidate() {
         return postTalentDao.findAllCandidate();
     }

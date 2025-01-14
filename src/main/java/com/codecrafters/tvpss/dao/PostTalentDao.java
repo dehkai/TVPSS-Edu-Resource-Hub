@@ -31,6 +31,17 @@ public class PostTalentDao {
     }
 
     public List<TalentPostModel> findAll() {
+        String sql = "SELECT * FROM post_talent ORDER BY id ASC";
+        try {
+            return jdbcTemplate.query(sql, new TalentPostRowMapper());
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
+        return List.of();
+    }
+
+    public List<TalentPostModel> findAllOpen() {
         String sql = "SELECT * FROM post_talent WHERE status = 'open' ORDER BY id ASC";
         try {
             return jdbcTemplate.query(sql, new TalentPostRowMapper());
@@ -65,7 +76,7 @@ public class PostTalentDao {
                 "JOIN post_talent pt ON ptc.post_talent_id = pt.id " +
                 "JOIN user_profile up ON ptc.user_profile_id = up.id " +
                 "JOIN interview i ON ptc.interview_id = i.id " +
-                "WHERE ptc.user_profile_id = ? AND ptc.candidate_status = 'approved' " +
+                "WHERE ptc.user_profile_id = ? " +
                 "ORDER BY ptc.apply_date DESC";
         try {
             return jdbcTemplate.query(sql, new TalentPostCandidateRowMapper(),user_profile_id);
@@ -152,7 +163,6 @@ public class PostTalentDao {
         }
         return List.of();
     }
-
 
     public void save(TalentPostModel request) {
         String sql = "INSERT INTO post_talent (talent_name, description, due_date, status) " +
