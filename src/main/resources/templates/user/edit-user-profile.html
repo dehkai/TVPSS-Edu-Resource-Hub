@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Event</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col items-center min-h-screen py-10" style="background-image: url('https://gimgs2.nohat.cc/thumb/f/640/white-technology-background-free-vector--f4394d8583f546f1826b.jpg');">
+<!-- Edit Event Form -->
+<div class="bg-white rounded-lg shadow-md max-w-3xl w-full p-8 border border-black">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Profile</h1>
+  <form th:action="@{/submitUpdateUserProfile}" th:object="${userProfile}" method="POST" class="space-y-6">
+
+    <!-- Edit Event Details -->
+    <input type="hidden" th:field="*{id}">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Username</label>
+      <input type="text" th:field="*{username}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black" readonly>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Address</label>
+      <input type="text" th:field="*{address}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black" readonly>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" th:field="*{name}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black " required>
+      </div>
+      <div>
+        <label  class="block text-sm font-medium text-gray-700">Age</label>
+        <input type="number" th:field="*{age}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black text-center" required>
+      </div>
+
+    </div>
+<!--    <div>-->
+<!--      <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>-->
+<!--      <input type="url" id="image" name="image" value="https://i.ytimg.com/vi/juXIYrY_Btk/maxresdefault.jpg" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">-->
+<!--    </div>-->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">About me</label>
+      <textarea type="text" th:field="*{about_me}" rows ="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">Join us to learn the art of filmmaking and storytelling through visual media.</textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Skills</label>
+      <textarea type="text" th:field="*{skill}" rows ="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">Join us to learn the art of filmmaking and storytelling through visual media.</textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Experience</label>
+      <textarea type="text" th:field="*{experience}" rows ="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">Join us to learn the art of filmmaking and storytelling through visual media.</textarea>
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Qualification</label>
+      <textarea type="text" th:field="*{qualifications}" rows ="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">Join us to learn the art of filmmaking and storytelling through visual media.</textarea>
+    </div>
+    <div class="flex justify-end space-x-4">
+      <a href="/student/profile" class=" inline-block bg-purple-600 text-white py-3 px-8 rounded-md font-semibold hover:bg-purple-700 transition duration-200 text-center">Cancel</a>
+      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save Changes</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
