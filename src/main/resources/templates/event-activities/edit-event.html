@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex flex-col items-center min-h-screen py-10"
+    style="background-image: url('https://gimgs2.nohat.cc/thumb/f/640/white-technology-background-free-vector--f4394d8583f546f1826b.jpg');">
+    <!-- Edit Event Form -->
+    <div class="bg-white rounded-lg shadow-md max-w-3xl w-full p-8 border border-black">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Event</h1>
+        <form id="editEventForm" class="space-y-6" method="POST" action="/event-activities/update-event">
+            <input type="hidden" id="eventId" name="id">
+            <!-- Edit Event Details -->
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" id="title" name="title"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                    required>
+            </div>
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+                <input type="url" id="image" name="imageUrl"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">
+            </div>
+            <!-- New Fields -->
+            <div>
+                <label for="participantsCount" class="block text-sm font-medium text-gray-700">Participants
+                    Count</label>
+                <input type="number" id="participantsCount" name="participantsCount"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                    placeholder="Enter number of participants">
+            </div>
+            <div>
+                <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                <input type="number" id="rating" name="rating" step="0.1"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                    placeholder="Enter rating (e.g., 4.5)">
+            </div>
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                <select id="status" name="status"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black">
+                    <option value="Planned">Planned</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <!-- Remaining Fields -->
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" name="description" rows="4"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" id="date" name="date"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                        required>
+                </div>
+                <div>
+                    <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
+                    <input type="text" id="time" name="time"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                        required>
+                </div>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <input type="text" id="location" name="location"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                        required>
+                </div>
+            </div>
+            <div>
+                <label for="details" class="block text-sm font-medium text-gray-700">Details</label>
+                <textarea id="details" name="details" rows="6"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"></textarea>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button type="button" onclick="window.location.href='/event-activities/manage-event'"
+                    class="bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300">Cancel</button>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save
+                    Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const pathSegments = window.location.pathname.split('/');
+            const eventId = pathSegments[pathSegments.length - 1];
+
+            if (!eventId) {
+                alert('Event ID not found in the URL.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/event-activities/get-event/${eventId}`);
+                if (response.ok) {
+                    const event = await response.json();
+
+                    // Populate form fields
+                    document.querySelector('#eventId').value = event.id || '';
+                    document.querySelector('#title').value = event.title || '';
+                    document.querySelector('#image').value = event.imageUrl || '';
+                    document.querySelector('#participantsCount').value = event.participantsCount || 0;
+                    document.querySelector('#rating').value = event.rating || 0.0;
+                    document.querySelector('#status').value = event.status || 'Pending';
+                    document.querySelector('#description').value = event.description || '';
+                    document.querySelector('#date').value = event.date || '';
+                    document.querySelector('#time').value = event.time || '';
+                    document.querySelector('#location').value = event.location || '';
+                    document.querySelector('#details').value = event.details || '';
+                } else {
+                    alert('Failed to fetch event details.');
+                }
+            } catch (error) {
+                console.error('Error fetching event details:', error);
+                alert('An error occurred while fetching event details.');
+            }
+        });
+        document.querySelector('#editEventForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch('/event-activities/update-event', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success === "true") {
+                        alert(result.message || 'Event updated successfully!');
+                        window.location.href = '/event-activities/manage-event';
+                    } else {
+                        alert(result.message || 'Failed to update the event.');
+                    }
+                } else {
+                    alert('Failed to update the event.');
+                }
+            } catch (error) {
+                console.error('Error updating event:', error);
+                alert('Something went wrong while updating the event.');
+            }
+        });
+    </script>
+</body>
+
+</html>
