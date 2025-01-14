@@ -4,35 +4,36 @@ import java.time.LocalDate;
 
 public class InterviewModel {
 
-    private Long id;
-    private String applicantName;
-    private String date;
+    private int id;
+    private int post_talent_id;
     private String time;
-    private String interviewer;
+    private String date;
+    private String feedback;
     private String status;
+    private String username;
 
-    public Long getId() {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getApplicantName() {
-        return applicantName;
+    public int getPost_talent_id() {
+        return post_talent_id;
     }
 
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setPost_talent_id(int post_talent_id) {
+        this.post_talent_id = post_talent_id;
     }
 
     public String getTime() {
@@ -43,12 +44,20 @@ public class InterviewModel {
         this.time = time;
     }
 
-    public String getInterviewer() {
-        return interviewer;
+    public String getDate() {
+        return date;
     }
 
-    public void setInterviewer(String interviewer) {
-        this.interviewer = interviewer;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 
     public String getStatus() {
@@ -58,5 +67,4 @@ public class InterviewModel {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

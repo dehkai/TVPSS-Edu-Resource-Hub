@@ -1,31 +1,13 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TVPSS Portal - Resource Request</title>
+    <title>TVPSS Portal - Program Status Submitted Successfully</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-        }
-
-        /* Additional custom styles */
-        .table-container {
-            height: auto;
-            /*max-height: 600px;*/
-            overflow-y: auto;
-        }
-        .header {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .full-height-table {
-            height: 100%;
-            width: 100%;
-            min-height: 100%;
         }
     </style>
 </head>
@@ -58,10 +40,10 @@
                         <p class="font-medium text-gray-700">School Admin</p>
                         <p class="text-gray-500">Administrator</p>
                     </div>
-                    <form th:action="@{/logout}" method="post"></form>
-                    <button type="submit" class="ml-2 text-sm text-red-600 hover:text-red-800">
-                        Logout
-                    </button>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="ml-2 text-sm text-red-600 hover:text-red-800">
+                            Logout
+                        </button>
                     </form>
                 </div>
             </div>
@@ -81,6 +63,14 @@
                         </svg>
                         Dashboard
                     </a>
+
+                    <a href="/program-status" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        Submit Another Program Status
+                    </a>
+
                     <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                         <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -94,68 +84,32 @@
                         </svg>
                         Manage Activities
                     </a>
-
-                    <a href="/resource-request" class="bg-gray-50 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                        <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        Resource Requests
-                    </a>
-
-                    <a href="/talentPost-list" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-                        <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        Manage Post List
-                    </a>
                 </nav>
             </div>
         </div>
     </div>
-    <div th:if="${#lists.isEmpty(talentPostList)}" class="bg-white p-4 rounded-lg shadow-sm">
-        <p class="text-gray-700">No talent posts available.</p>
-    </div>
+
     <!-- Main content -->
     <div class="flex-1">
-        <main class="py-4">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <!-- Page Header -->
-                <div class="bg-white rounded-lg shadow-sm p-4 mb-4 flex items-center justify-between">
-                    <div>
-                        <h1 class="text-xl font-semibold text-gray-900">Manage Post Talent</h1>
-                        <p class="mt-0.5 text-sm text-gray-500">View Post talent list</p>
+        <main class="py-6 flex items-center min-h-[calc(100vh-8rem)]">
+            <div class="w-3/4 mx-auto px-4 sm:px-6 md:px-8">
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <h2 class="mt-4 text-2xl font-bold text-gray-900">Program Status Submitted Successfully!</h2>
+                        <p class="mt-2 text-gray-600">Your school's program status has been submitted and is pending review.</p>
+                        <div class="mt-6 space-x-4">
+                            <a href="/program-status" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                Submit Another Status
+                            </a>
+                            <a href="/dashboard/admin" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Return to Dashboard
+                            </a>
+                        </div>
                     </div>
-                    <!-- Aligning the button to the right, same row -->
-                    <a href="/talentPost-form" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">Create Post</a>
                 </div>
-                    <!-- Table -->
-                    <div class="table-container border">
-                        <table class=" w-full text-left">
-                            <thead class="header">
-                            <tr>
-                                <th class="px-4 py-2">ID</th>
-                                <th class="px-4 py-2">Talent Name</th>
-                                <th class="px-4 py-2">Description</th>
-                                <th class="px-4 py-2">Due Date</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Edit</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- Loop through the talentPostList and render each post -->
-                            <tr th:each="post : ${talentPostList}">
-                                <td class="px-4 py-2" th:text="${post.id}"></td>
-                                <td class="px-4 py-2" th:text="${post.talentName}"></td>
-                                <td class="px-4 py-2" th:text="${post.description}"></td>
-                                <td class="px-4 py-2" th:text="${post.dueDate}"></td>
-                                <td class="px-4 py-2" th:text="${post.status}"></td>
-                                <td class="px-4 py-2">
-                                    <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
             </div>
         </main>
     </div>

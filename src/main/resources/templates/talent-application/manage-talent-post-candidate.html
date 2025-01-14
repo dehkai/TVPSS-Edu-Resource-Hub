@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>TVPSS Portal - Resource Request</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Additional custom styles */
+    .table-container {
+      height: auto;
+      /*max-height: 600px;*/
+      overflow-y: auto;
+    }
+    .header {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .full-height-table {
+      height: 100%;
+      width: 100%;
+      min-height: 100%;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<!-- Top Navigation Bar -->
+<header class="bg-white border-b border-gray-200">
+  <div class="px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Left side -->
+      <div class="flex items-center">
+        <img src="/images/jpnj-logo.jpg"
+             alt="JPNJ Logo"
+             class="h-8 w-auto">
+        <span class="ml-4 text-lg font-semibold text-gray-900">TVPSS Portal Johor State Education Department</span>
+      </div>
+
+      <!-- Right side -->
+      <div class="flex items-center space-x-4">
+        <button class="p-2 text-gray-400 hover:text-gray-500">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+          </svg>
+        </button>
+
+        <div class="flex items-center space-x-3">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"
+               alt="Profile"
+               class="h-8 w-8 rounded-full">
+          <div class="text-sm">
+            <p class="font-medium text-gray-700">School Admin</p>
+            <p class="text-gray-500">Administrator</p>
+          </div>
+          <form th:action="@{/logout}" method="post"></form>
+          <button type="submit" class="ml-2 text-sm text-red-600 hover:text-red-800">
+            Logout
+          </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="min-h-screen flex">
+  <!-- Sidebar -->
+  <div class="hidden md:flex md:w-64 md:flex-col">
+    <div class="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r border-gray-200">
+      <div class="flex-grow flex flex-col">
+        <nav class="flex-1 px-2 pb-4 space-y-1">
+          <a href="/dashboard/admin" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            Dashboard
+          </a>
+          <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            Manage Candidates
+          </a>
+
+          <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Manage Activities
+          </a>
+
+          <a href="/resource-request" class="text-gray-600 hover:bg-gray-50 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Resource Requests
+          </a>
+
+          <a href="/talentPost-list" class="text-gray-600 hover:bg-gray-50 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Manage Post List
+          </a>
+
+          <a href="/talentPostCandidate-list" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+            <svg class="text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Manage Post Candidate List
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div th:if="${#lists.isEmpty(talentPostCandidateList)}" class="bg-white p-4 rounded-lg shadow-sm">
+    <p class="text-gray-700">No talent posts available.</p>
+  </div>
+  <!-- Main content -->
+  <div class="flex-1">
+    <main class="py-4">
+        <!-- Page Header -->
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-semibold text-gray-900">Manage Post Talent Candidate</h1>
+            <p class="mt-0.5 text-sm text-gray-500">View Post talent Candidate list</p>
+          </div>
+          <!-- Aligning the button to the right, same row -->
+<!--          <a href="/talentPost-form" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">Create Post</a>-->
+        </div>
+        <!-- Table -->
+<!--        <div class="table-container border">-->
+<!--          <table class="w-full text-left">-->
+<!--            <thead class="header">-->
+<!--            <tr>-->
+<!--              <th class="px-4 py-2">ID</th>-->
+<!--              <th class="px-4 py-2">Talent Name</th>-->
+<!--              <th class="px-4 py-2">Username</th>-->
+<!--              <th class="px-4 py-2">Name</th>-->
+<!--              <th class="px-4 py-2">Age</th>-->
+<!--              <th class="px-4 py-2">Apply Date</th>-->
+<!--              <th class="px-4 py-2">Candidate Status</th>-->
+<!--              <th class="px-4 py-2">Interview Feedback</th>-->
+<!--              <th class="px-4 py-2">Interview date</th>-->
+<!--              <th class="px-4 py-2">Interview time</th>-->
+<!--              <th class="px-4 py-2">Interview status</th>-->
+<!--              <th class="px-4 py-2">Profile</th>-->
+<!--              <th class="px-4 py-2">interview</th>-->
+<!--              <th class="px-4 py-2">Update Status</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            &lt;!&ndash; Loop through the talentPostCandidateList and render each candidate &ndash;&gt;-->
+<!--            <tr th:each="post : ${talentPostCandidateList}">-->
+<!--              <td class="px-4 py-2" th:text="${post.id}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.talent_name}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.username}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.name}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.age}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.apply_date}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.candidate_status}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.feedback}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.interview_date}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.interview_time}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.interview_status}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.interview_id}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.post_talent_id}"></td>-->
+<!--              <td class="px-4 py-2" th:text="${post.user_profile_id}"></td>-->
+<!--              <td class="px-4 py-2">-->
+<!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Profile</a>-->
+<!--              </td>-->
+<!--              <td class="px-4 py-2">-->
+<!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Interview</a>-->
+<!--              </td>-->
+<!--              <td class="px-4 py-2">-->
+<!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Update Status</a>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+
+        <!-- Resource Requests Table -->
+        <div class="bg-white rounded-lg border">
+          <div class="p-4 border-b flex justify-between items-center">
+            <h3 class="text-lg font-semibold">Candidate List</h3>
+            <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Pending</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50 text-xs uppercase text-gray-500">
+              <tr>
+                <th class="px-6 py-3 text-left tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left tracking-wider">Talent Name</th>
+                <th class="px-6 py-3 text-left tracking-wider">Username</th>
+                <th class="px-6 py-3 text-left tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left tracking-wider">Age</th>
+                <th class="px-6 py-3 text-left tracking-wider">Apply Date</th>
+                <th class="px-6 py-3 text-left tracking-wider">Interview Feedback</th>
+                <th class="px-6 py-3 text-left tracking-wider">Interview date</th>
+                <th class="px-6 py-3 text-left tracking-wider">Interview time</th>
+                <th class="px-6 py-3 text-left tracking-wider">Interview status</th>
+                <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>
+                <th class="px-6 py-3 text-left tracking-wider">Profile</th>
+                <th class="px-6 py-3 text-left tracking-wider">interview</th>
+                <th class="px-6 py-3 text-left tracking-wider">Update Status</th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+<!--              th:classappend="${post.candidate_status == 'approved'-->
+<!--              ? 'bg-green-100'-->
+<!--              : (post.candidate_status == 'rejected'-->
+<!--              ? 'bg-red-100'-->
+<!--              : '')}"-->
+              <tr th:each="post : ${talentPostCandidateList}"
+                  class="hover:bg-blue-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-sm font-medium" th:text="${post.id}">1</span>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm font-medium" th:text="${post.talent_name}">Talent Name</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="space-y-1">
+                    <div class="text-sm font-medium" th:text="${post.username}">Username</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-medium" th:text="${post.name}">Name</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.age}">Age</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.apply_date}">Apply Date</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.feedback}">Interview Feedback</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.interview_date}">Interview Date</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium" th:text="${post.interview_time}">Interview Time</div>
+                </td>
+                <td class="px-6 py-4">
+<!--                  <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>-->
+                  <span th:class="${post.interview_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.interview_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.interview_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(post.interview_status))}">
+                                                High
+                                            </span>
+
+                </td>
+                <td class="px-6 py-4">
+<!--                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>-->
+
+                  <span th:class="${post.candidate_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.candidate_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.candidate_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(post.candidate_status))}">
+                                                High
+                                            </span>
+                </td>
+                <td class="px-6 py-4">
+                  <a th:href="@{/talentPostCandidate-list/profile/{id}(id=${post.user_profile_id})}"
+                          class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 text-center">
+                    Profile
+                  </a>
+                </td>
+                <td class="px-6 py-4">
+
+                  <!-- Else if interview_status is '-' -->
+                  <div class="flex space-x-2" >
+                    <!-- Button for 'Create' -->
+                    <a th:href="@{/admin/interview/{id}(id=${post.interview_id})}"
+                            th:if="${post.interview_status == '-' && post.candidate_status != 'rejected' && post.candidate_status != 'approved'}"
+                            class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 text-center">
+                      Set Schedule
+                    </a>
+
+                    <!-- Button for 'Edit' -->
+                    <div class="flex flex-col space-y-2" th:if="${post.interview_status != '-' && post.candidate_status != 'rejected' && post.candidate_status != 'approved' && post.interview_status != 'rejected' && post.interview_status != 'approved'}">
+                      <a th:href="@{/admin/interview/{id}(id=${post.interview_id})}"
+                         class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 text-center">
+                        Edit
+                      </a>
+
+                      <button th:onclick="'openModal(\'approveModal\', \'' + ${post.interview_id} + '\')'"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                      Approve
+                    </button>
+                    <button th:onclick="'openModal(\'rejectModal\', \'' + ${post.interview_id} + '\')'"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                      Reject
+                    </button>
+                    </div>
+                    <!-- Button for 'Done' -->
+                    <div class="flex justify-center">
+                    <button th:onclick="/"
+                            th:if="${post.candidate_status == 'rejected' || post.candidate_status == 'approved' || post.interview_status == 'rejected' || post.interview_status == 'approved'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 "
+                            disabled>
+                      Done
+                    </button>
+                      </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-4">
+                  <div class="flex space-x-2" >
+                    <div class="flex flex-col space-y-2">
+                    <form th:action="@{/talentPostCandidate-list/{id}/approve(id=${post.id})}" method="post">
+                      <button type="submit" th:if="${post.interview_status == 'approved' && post.candidate_status == 'pending'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                      Approve
+                    </button>
+                    </form>
+                    <form th:action="@{/talentPostCandidate-list/{id}/{idInterview}/reject(id=${post.id}, idInterview=${post.interview_id})}" method="post">
+                      <button type="submit" th:if="${post.candidate_status == 'pending'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                      Reject
+                    </button>
+                    </form>
+                    <!-- Button for 'Done' -->
+                    <button th:onclick="/"
+                            th:if="${post.candidate_status == 'rejected' || post.candidate_status == 'approved'}"
+                            class="px-3 py-1 text-xs font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700">
+                      Done
+                    </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </main>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200">
+  <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-sm text-gray-500">
+      © 2024 TVPSS Portal Johor State Education Department. All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- Modals -->
+<div id="approveModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Approve Interview</h3>
+      <div class="mt-2">
+        <form method="post" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Feedback</label>
+            <textarea name="feedback" rows="3"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                      required></textarea>
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button type="button" onclick="closeModal('approveModal')"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto w-full z-[100]">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
+    <div class="mt-3">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Reject Interview</h3>
+      <div class="mt-2">
+        <form method="post" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Reason for Rejection</label>
+            <textarea name="feedback" rows="3"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                      required></textarea>
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button type="button" onclick="closeModal('rejectModal')"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              Cancel
+            </button>
+            <button type="submit"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  function openModal(modalId, requestId) {
+    document.getElementById(modalId).classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    const form = document.querySelector('#' + modalId + ' form');
+    form.action = '/admin/interview/' + requestId + '/' + (modalId === 'approveModal' ? 'approve' : 'reject');
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal when clicking outside
+  window.onclick = function(event) {
+    const approveModal = document.getElementById('approveModal');
+    const rejectModal = document.getElementById('rejectModal');
+    if (event.target === approveModal || event.target === rejectModal) {
+      closeModal(event.target.id);
+    }
+  }
+</script>
+</body>
+</html>

@@ -19,7 +19,7 @@
             <div class="flex h-16 items-center justify-between">
                 <!-- Left side -->
                 <div class="flex items-center">
-                    <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/328703162_1625433044574400_7944227844903868626_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=TcsfsEbUaiUQ7kNvgEE-JT2&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=Ak4toum7BO88jO36dIpckou&oh=00_AYD8Qc7NNM-7B0TU7NzYlIFV8zQn_eCTBjaNDJFAU9BbyA&oe=677D6864" 
+                    <img src="/images/jpnj-logo.jpg" 
                          alt="JPNJ Logo" 
                          class="h-8 w-auto">
                     <span class="ml-4 text-lg font-semibold text-gray-900">TVPSS Portal Johor State Education Department</span>
@@ -69,7 +69,7 @@
                             <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                             </svg>
-                            Program Status
+                            School's TVPSS Status
                         </a>
 
                         <a href="/candidate-management" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
@@ -161,7 +161,6 @@
                 <div class="bg-white rounded-lg border">
                     <div class="p-4 border-b flex justify-between items-center">
                         <h3 class="text-lg font-semibold">Resource Requests</h3>
-                        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Pending</span>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -217,16 +216,20 @@
                                         <div class="text-sm">
                                             <div>Needed by: <span th:text="${#temporals.format(request.dateNeeded, 'MMM dd, yyyy')}">Jan 10, 2024</span></div>
                                             <div class="text-gray-500">Submitted: <span th:text="${#temporals.format(request.dateSubmitted, 'MMM dd, yyyy')}">Dec 15, 2023</span></div>
-                                            <span th:class="${request.priority == 'High' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-red-100 text-red-800' : 
-                                                   (request.priority == 'Medium' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
-                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-green-100 text-green-800')}"
-                                                  th:text="${request.priority}">
+                                            <span th:class="${request.priority == 'high' || request.priority == 'High' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-red-100 text-red-800' : 
+                                                   (request.priority == 'medium' || request.priority == 'Medium' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800' : 
+                                                   (request.priority == 'low' || request.priority == 'Low' ? 'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-green-100 text-green-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                                                  th:text="${#strings.capitalize(#strings.toLowerCase(request.priority))}">
                                                 High
                                             </span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800" th:text="${request.status}">
+                                        <span th:class="${request.status == 'pending' ? 'px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800' :
+                                                (request.status == 'approved' ? 'px-2 py-1 text-xs rounded-full bg-green-100 text-green-800' :
+                                                'px-2 py-1 text-xs rounded-full bg-red-100 text-red-800')}"
+                                              th:text="${#strings.capitalize(#strings.toLowerCase(request.status))}">
                                             pending
                                         </span>
                                     </td>

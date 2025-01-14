@@ -18,7 +18,7 @@
             <div class="flex h-16 items-center justify-between">
                 <!-- Left side -->
                 <div class="flex items-center">
-                    <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/328703162_1625433044574400_7944227844903868626_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=TcsfsEbUaiUQ7kNvgEE-JT2&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=Ak4toum7BO88jO36dIpckou&oh=00_AYD8Qc7NNM-7B0TU7NzYlIFV8zQn_eCTBjaNDJFAU9BbyA&oe=677D6864" 
+                    <img src="/images/jpnj-logo.jpg" 
                          alt="JPNJ Logo" 
                          class="h-8 w-auto">
                     <span class="ml-4 text-lg font-semibold text-gray-900">TVPSS Portal Johor State Education Department</span>
@@ -64,7 +64,6 @@
                             Dashboard
                         </a>
 
-                        <!-- Add other sidebar items -->
                         <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                             <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
@@ -97,16 +96,41 @@
                     <!-- Welcome Section -->
                     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                         <h1 class="text-2xl font-semibold text-gray-900">Welcome, School Administrator</h1>
-                        <p class="mt-1 text-sm text-gray-500">Manage your school's TVPSS programs and candidates</p>
+                        <div class="mt-2">
+                            <p class="text-gray-700">School: <span th:text="${session.schoolName}" class="font-medium">SMK Example School</span></p>
+                            <p class="text-gray-700">School Code: <span th:text="${session.schoolCode}" class="font-medium">SMKEX</span></p>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">Manage your school's TVPSS programs and candidates</p>
                     </div>
 
                     <!-- Quick Actions Grid -->
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        <!-- Candidates Management Card -->
+                        <!-- Program Status Card -->
                         <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                             <div class="p-6">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-gray-900">Programs' Status</h2>
+                                        <p class="mt-1 text-sm text-gray-500">Manage school's program status</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <a href="/program-status" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                        Submit Program Status
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Candidates Management Card -->
+                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                            <div class="p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
                                         <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                                         </svg>
@@ -117,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                    <a href="/talentPostCandidate-list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-blue-700">
                                         View Candidates
                                     </a>
                                 </div>
@@ -139,7 +163,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/talentPost-list" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700">
+                                    <a href="/talentPost-list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700">
                                         Manage Post
                                     </a>
                                 </div>
@@ -161,7 +185,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/event-manage" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                    <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
                                         Manage Activities
                                     </a>
                                 </div>
@@ -182,13 +206,17 @@
                                         <p class="mt-1 text-sm text-gray-500">Submit resource requests</p>
                                     </div>
                                 </div>
-                                <div class="mt-6">
-                                    <a href="/resource-request" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
-                                        Request Resources
+                                <div class="mt-6 space-y-3">
+                                    <a href="/resource-request" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
+                                        Submit New Request
+                                    </a>
+                                    <a href="/resource-request/list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-purple-600 text-sm font-medium rounded-md shadow-sm text-purple-600 bg-white hover:bg-purple-50">
+                                        View Request History
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
 
                     <!-- Candidate Applications Section -->
