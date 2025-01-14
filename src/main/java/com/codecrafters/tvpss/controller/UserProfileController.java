@@ -1,4 +1,5 @@
 package com.codecrafters.tvpss.controller;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +21,36 @@ public class UserProfileController {
         return "/candidate/candidate-application-list";
     }
 
-    @GetMapping("/talentPostCandidate-list/profile/{id}")
+    @GetMapping("/profile/{id}")
     public String showCandidateProfile(Model model, @PathVariable int id) {
         UserProfileModel userProfileModel = userProfileService.findById(id);
         model.addAttribute("userProfile", userProfileModel);
         return "/user/user-profile";
     }
 
-    @PostMapping("/submitCandidateRequest")
+    @GetMapping("/student/profile")
+    public String showStudentProfile(Model model, HttpSession session) {
+        String userName = (String) session.getAttribute("username");
+        UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
+        model.addAttribute("userProfile", userProfileModel);
+        model.addAttribute("isStudent", true);
+        return "/user/user-profile";
+    }
+
+    @GetMapping("/student/profile/edit/{id}")
+    public String showEditStudentProfileForm(Model model, @PathVariable int id) {
+        UserProfileModel userProfileModel = userProfileService.findById(id);
+        model.addAttribute("userProfile", userProfileModel);
+//        model.addAttribute("isStudent", true);
+        return "/user/edit-user-profile";
+    }
+
+    @PostMapping("/submitUpdateUserProfile")
     public String submitForm(UserProfileModel request, Model model) {
         // Process the request object as needed
+        userProfileService.updateUserProfile(request);
         model.addAttribute("message", "Request submitted successfully!");
-        return "/interview/interview-form";
+        return "redirect:/student/profile";
     }
 
 }
