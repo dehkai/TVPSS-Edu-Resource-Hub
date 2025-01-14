@@ -1,5 +1,6 @@
 package com.codecrafters.tvpss.dao;
 
+import com.codecrafters.tvpss.model.InterviewModel;
 import com.codecrafters.tvpss.model.ResourceRequestModel;
 import com.codecrafters.tvpss.model.TalentPostModel;
 import org.slf4j.Logger;
@@ -39,6 +40,26 @@ public class UserProfileDao {
             // You can throw a custom exception or return an empty list, depending on your needs.
         }
         return List.of();
+    }
+
+    public void update(UserProfileModel userProfile) {
+        String sql = "UPDATE user_profile SET username = ?, name = ?, age = ?, about_me = ?, skill = ?, experience = ?, address = ?, qualifications = ? " +
+                "WHERE id = ?";
+        try {
+            jdbcTemplate.update(sql,
+                    userProfile.getUsername(),
+                    userProfile.getName(),
+                    userProfile.getAge(),
+                    userProfile.getAbout_me(),
+                    userProfile.getSkill(),
+                    userProfile.getExperience(),
+                    userProfile.getAddress(),
+                    userProfile.getQualifications(),
+                    userProfile.getId()
+            );
+        } catch (Exception e) {
+            logger.error("Error updating interview data: ", e);
+        }
     }
 
     private static class UserProfileRowMapper implements RowMapper<UserProfileModel> {
