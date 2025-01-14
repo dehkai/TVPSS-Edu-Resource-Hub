@@ -96,7 +96,11 @@
                     <!-- Welcome Section -->
                     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                         <h1 class="text-2xl font-semibold text-gray-900">Welcome, School Administrator</h1>
-                        <p class="mt-1 text-sm text-gray-500">Manage your school's TVPSS programs and candidates</p>
+                        <div class="mt-2">
+                            <p class="text-gray-700">School: <span th:text="${session.schoolName}" class="font-medium">SMK Example School</span></p>
+                            <p class="text-gray-700">School Code: <span th:text="${session.schoolCode}" class="font-medium">SMKEX</span></p>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">Manage your school's TVPSS programs and candidates</p>
                     </div>
 
                     <!-- Quick Actions Grid -->
@@ -116,7 +120,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/program-status" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                    <a href="/program-status" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
                                         Submit Program Status
                                     </a>
                                 </div>
@@ -137,7 +141,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/talentPostCandidate-list" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-blue-700">
+                                    <a href="/talentPostCandidate-list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-600 hover:bg-blue-700">
                                         View Candidates
                                     </a>
                                 </div>
@@ -159,7 +163,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="/talentPost-list" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700">
+                                    <a href="/talentPost-list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700">
                                         Manage Post
                                     </a>
                                 </div>
@@ -181,7 +185,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-6">
-                                    <a href="#" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                    <a href="#" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
                                         Manage Activities
                                     </a>
                                 </div>
@@ -202,9 +206,12 @@
                                         <p class="mt-1 text-sm text-gray-500">Submit resource requests</p>
                                     </div>
                                 </div>
-                                <div class="mt-6">
-                                    <a href="/resource-request" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
-                                        Request Resources
+                                <div class="mt-6 space-y-3">
+                                    <a href="/resource-request" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
+                                        Submit New Request
+                                    </a>
+                                    <a href="/resource-request/list" class="w-full inline-flex items-center justify-center px-4 py-2 border border-purple-600 text-sm font-medium rounded-md shadow-sm text-purple-600 bg-white hover:bg-purple-50">
+                                        View Request History
                                     </a>
                                 </div>
                             </div>
