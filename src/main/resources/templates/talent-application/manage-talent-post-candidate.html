@@ -197,28 +197,107 @@
             <table class="w-full">
               <thead class="bg-gray-50 text-xs uppercase text-gray-500">
               <tr>
-                <th class="px-6 py-3 text-left tracking-wider">ID</th>
-                <th class="px-6 py-3 text-left tracking-wider">Talent Name</th>
-                <th class="px-6 py-3 text-left tracking-wider">Username</th>
-                <th class="px-6 py-3 text-left tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left tracking-wider">Age</th>
-                <th class="px-6 py-3 text-left tracking-wider">Apply Date</th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=ptc.id&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.id' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    ID ▲▼
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=pt.talent_name&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'pt.talent_name' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    Talent Name ▲▼
+                  </button>
+                </th>
+                </th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=up.username&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.username' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    USERNAME ▲▼
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=up.name&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.name' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    NAME ▲▼
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=up.age&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.age' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    AGE ▲▼
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=ptc.apply_date&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.apply_date' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    APPLY DATE ▲▼
+                  </button>
+                </th>
                 <th class="px-6 py-3 text-left tracking-wider">Interview Feedback</th>
-                <th class="px-6 py-3 text-left tracking-wider">Interview date</th>
-                <th class="px-6 py-3 text-left tracking-wider">Interview time</th>
-                <th class="px-6 py-3 text-left tracking-wider">Interview status</th>
-                <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=i.date&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.date' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    INTERVIEW DATE ▲▼
+                  </button>
+                </th>
+                <!--              <th class="px-6 py-3 text-left tracking-wider">Interview date</th>-->
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=i.time&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.time' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    INTERVIEW TIME ▲▼
+                  </button>
+                </th>
+                <!--              <th class="px-6 py-3 text-left tracking-wider">Interview time</th>-->
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=i.status&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.status' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    INTERVIEW STATUS ▲▼
+                  </button>
+                </th>
+                <!--              <th class="px-6 py-3 text-left tracking-wider">Interview status</th>-->
+                <th class="px-6 py-3 text-left tracking-wider">
+                  <button
+                          onclick="window.location.href = '/dashboard/admin/talentPostCandidate-list/sort?sortBy=ptc.candidate_status&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.candidate_status' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                          class="flex items-center">
+                    CANDIDATE STATUS ▲▼
+                  </button>
+                </th>
                 <th class="px-6 py-3 text-left tracking-wider">Profile</th>
                 <th class="px-6 py-3 text-left tracking-wider">interview</th>
                 <th class="px-6 py-3 text-left tracking-wider">Update Status</th>
               </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
-<!--              th:classappend="${post.candidate_status == 'approved'-->
-<!--              ? 'bg-green-100'-->
-<!--              : (post.candidate_status == 'rejected'-->
-<!--              ? 'bg-red-100'-->
-<!--              : '')}"-->
               <tr th:each="post : ${talentPostCandidateList}"
                   class="hover:bg-blue-50">
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -289,7 +368,7 @@
                     <!-- Button for 'Create' -->
                     <a th:href="@{/admin/interview/{id}(id=${post.interview_id})}"
                             th:if="${post.interview_status == '-' && post.candidate_status != 'rejected' && post.candidate_status != 'approved'}"
-                            class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 text-center">
+                            class="inline-block px-3 py-1 text-xs font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 w">
                       Set Schedule
                     </a>
 
