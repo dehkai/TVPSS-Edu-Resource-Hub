@@ -126,6 +126,26 @@ public class TalentApplicationController {
         return "/talent-application/manage-talent-post-candidate";
     }
 
+    @GetMapping("/dashboard/officer/talentPostCandidate-list")
+    public String sortOfficerCandidateList(
+            HttpSession session,
+            Model model,
+            @RequestParam(defaultValue = "ptc.apply_date") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder) {
+
+        // Retrieve the sorted list of candidates based on the user's profile and sorting parameters
+        List<TalentPostCandidateModel> talentPostCandidateList =
+                applicationService.sortAllByUser(sortBy, sortOrder);
+
+        // Add the list and sorting information to the model to be used in the view
+        model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        model.addAttribute("currentSortBy", sortBy);
+        model.addAttribute("currentSortOrder", sortOrder);
+
+        // Return the view name (ensure this matches your view path)
+        return "/talent-application/talent-post-candidate-report";
+    }
+
     @GetMapping("/dashboard/student/talentPostCandidate-list")
     public String showStudentCandidateList(HttpSession session,Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
