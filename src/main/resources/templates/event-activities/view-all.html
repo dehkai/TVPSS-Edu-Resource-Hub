@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View All Activities</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<!-- Top Navigation Bar -->
+<header class="bg-white border-b border-gray-200">
+    <div class="px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.30808-6/328703162_1625433044574400_7944227844903868626_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=TcsfsEbUaiUQ7kNvgEE-JT2&_nc_zt=23&_nc_ht=scontent-sin6-2.xx&_nc_gid=Ak4toum7BO88jO36dIpckou&oh=00_AYD8Qc7NNM-7B0TU7NzYlIFV8zQn_eCTBjaNDJFAU9BbyA&oe=677D6864"
+                     alt="JPNJ Logo"
+                     class="h-8 w-auto">
+                <span class="ml-4 text-lg font-semibold text-gray-900">TVPSS Portal Johor State Education Department</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <img src="https://ui-avatars.com/api/?name=Maman+Ketoprak&background=0D8ABC&color=fff"
+                     alt="Profile"
+                     class="h-8 w-8 rounded-full">
+                <div class="text-sm">
+                    <p class="font-medium text-gray-700">Maman Ketoprak</p>
+                    <p class="text-gray-500">Student</p>
+                </div>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="ml-2 text-sm text-red-600 hover:text-red-800">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <div class="hidden md:flex md:w-64 md:flex-col">
+        <div class="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r border-gray-200">
+            <div class="flex-grow flex flex-col">
+                <nav class="flex-1 px-2 pb-4 space-y-1">
+                    <a href="/dashboard" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        Dashboard
+                    </a>
+                    <a href="/event-activities" class="bg-gray-100 text-gray-900 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                        Events & Activities
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1">
+        <main class="py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <h1 class="text-2xl font-semibold text-gray-900">View All Activities</h1>
+                    <p class="mt-1 text-sm text-gray-500">Explore the list of events and activities available to you.</p>
+                </div>
+
+                <!-- Activities Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div th:each="activity : ${eventActivities}" class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <img th:src="${activity.imageUrl}" alt="Event Image" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-900" th:text="${activity.title}"></h3>
+                            <p class="mt-1 text-sm text-gray-500" th:text="'Date: ' + ${activity.date}"></p>
+                            <p class="mt-1 text-sm text-gray-500" th:text="'Location: ' + ${activity.location}"></p>
+                            <p class="mt-2 text-sm text-gray-700 line-clamp-2" th:text="${activity.description}"></p>
+                            <div class="flex justify-between items-center mt-4">
+                                <span th:text="'Participants: ' + ${activity.participantsCount}" class="text-sm text-gray-600"></span>
+                                <span th:text="'Rating: ' + ${activity.rating}" class="text-sm text-blue-600"></span>
+                            </div>
+                            <a th:href="@{/event-activities/details/{id}(id=${activity.id})}"
+                               class="mt-4 block bg-blue-500 text-white text-sm font-medium py-2 px-4 text-center rounded hover:bg-blue-600">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Activities Message -->
+                <div th:if="${eventActivities.isEmpty()}" class="text-center text-gray-500 mt-10">
+                    <p>No activities available at the moment. Check back later!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-sm text-gray-500">
+            © 2024 TVPSS Portal Johor State Education Department. All Rights Reserved.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
