@@ -66,10 +66,32 @@ public class TalentApplicationController {
         return "/talent-application/update-talent-post";
     }
 
+    @PostMapping("/talentPost-form/delete/{id}")
+    public String deleteTalentPost(Model model,@PathVariable int id,
+                                           RedirectAttributes redirectAttributes) {
+        try {
+            TalentPostModel talentPost = applicationService.deleteById(id);
+//            applicationService.updatePost(id);
+            redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to reject request");
+        }
+        return "redirect:/talentPost-list";
+    }
+
     @GetMapping("/talentPost-list")
     public String showTalentPostList(Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
         List<TalentPostModel> talentPostList = applicationService.getAllPostTalent();
+        System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
+        model.addAttribute("talentPostList", talentPostList);
+        return "/talent-application/manage-talent-post";
+    }
+
+    @GetMapping("/talentPost-list/open")
+    public String showOpenTalentPostList(Model model) {
+//        model.addAttribute("interviewRequest", new InterviewModel());
+        List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
         System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
         model.addAttribute("talentPostList", talentPostList);
         return "/talent-application/manage-talent-post";
@@ -84,6 +106,46 @@ public class TalentApplicationController {
         return "/talent-application/manage-talent-post-candidate";
     }
 
+    @GetMapping("/dashboard/admin/talentPostCandidate-list/sort")
+    public String sortAdminCandidateList(
+            HttpSession session,
+            Model model,
+            @RequestParam(defaultValue = "ptc.apply_date") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder) {
+
+        // Retrieve the sorted list of candidates based on the user's profile and sorting parameters
+        List<TalentPostCandidateModel> talentPostCandidateList =
+                applicationService.sortAllByUser(sortBy, sortOrder);
+
+        // Add the list and sorting information to the model to be used in the view
+        model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        model.addAttribute("currentSortBy", sortBy);
+        model.addAttribute("currentSortOrder", sortOrder);
+
+        // Return the view name (ensure this matches your view path)
+        return "/talent-application/manage-talent-post-candidate";
+    }
+
+    @GetMapping("/dashboard/officer/talentPostCandidate-list")
+    public String sortOfficerCandidateList(
+            HttpSession session,
+            Model model,
+            @RequestParam(defaultValue = "ptc.apply_date") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder) {
+
+        // Retrieve the sorted list of candidates based on the user's profile and sorting parameters
+        List<TalentPostCandidateModel> talentPostCandidateList =
+                applicationService.sortAllByUser(sortBy, sortOrder);
+
+        // Add the list and sorting information to the model to be used in the view
+        model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        model.addAttribute("currentSortBy", sortBy);
+        model.addAttribute("currentSortOrder", sortOrder);
+
+        // Return the view name (ensure this matches your view path)
+        return "/talent-application/talent-post-candidate-report";
+    }
+
     @GetMapping("/dashboard/student/talentPostCandidate-list")
     public String showStudentCandidateList(HttpSession session,Model model) {
 //        model.addAttribute("interviewRequest", new InterviewModel());
@@ -92,6 +154,30 @@ public class TalentApplicationController {
         List<TalentPostCandidateModel> talentPostCandidateList = applicationService.getAllPostTalentCandidateByUserProfileId(userProfileModel.getId());
         System.out.println("Talent Post List Size: " + talentPostCandidateList.size());  // Debug log
         model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        return "/interview/student-interview-list";
+    }
+
+    @GetMapping("/dashboard/student/talentPostCandidate-list/sort")
+    public String sortCandidateList(
+            HttpSession session,
+            Model model,
+            @RequestParam(defaultValue = "ptc.apply_date") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder) {
+
+        // Retrieve the username from the session and get the associated user profile
+        String userName = (String) session.getAttribute("username");
+        UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
+
+        // Retrieve the sorted list of candidates based on the user's profile and sorting parameters
+        List<TalentPostCandidateModel> talentPostCandidateList =
+                applicationService.sortCandidateByUserProfileId(userProfileModel.getId(), sortBy, sortOrder);
+
+        // Add the list and sorting information to the model to be used in the view
+        model.addAttribute("talentPostCandidateList", talentPostCandidateList);
+        model.addAttribute("currentSortBy", sortBy);
+        model.addAttribute("currentSortOrder", sortOrder);
+
+        // Return the view name (ensure this matches your view path)
         return "/interview/student-interview-list";
     }
 
@@ -119,7 +205,7 @@ public class TalentApplicationController {
 
     @GetMapping("/dashboard/student/talent-post/view-all")
     public String showAllPostList(Model model) {
-        List<TalentPostModel> talentPostList = applicationService.getAllPostTalent();
+        List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
         System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
         model.addAttribute("talentPostList", talentPostList);
 //        model.addAttribute("interviewRequest", new InterviewModel());

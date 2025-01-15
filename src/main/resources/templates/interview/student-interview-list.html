@@ -128,59 +128,6 @@
         <!-- Aligning the button to the right, same row -->
         <!--          <a href="/talentPost-form" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700">Create Post</a>-->
       </div>
-      <!-- Table -->
-      <!--        <div class="table-container border">-->
-      <!--          <table class="w-full text-left">-->
-      <!--            <thead class="header">-->
-      <!--            <tr>-->
-      <!--              <th class="px-4 py-2">ID</th>-->
-      <!--              <th class="px-4 py-2">Talent Name</th>-->
-      <!--              <th class="px-4 py-2">Username</th>-->
-      <!--              <th class="px-4 py-2">Name</th>-->
-      <!--              <th class="px-4 py-2">Age</th>-->
-      <!--              <th class="px-4 py-2">Apply Date</th>-->
-      <!--              <th class="px-4 py-2">Candidate Status</th>-->
-      <!--              <th class="px-4 py-2">Interview Feedback</th>-->
-      <!--              <th class="px-4 py-2">Interview date</th>-->
-      <!--              <th class="px-4 py-2">Interview time</th>-->
-      <!--              <th class="px-4 py-2">Interview status</th>-->
-      <!--              <th class="px-4 py-2">Profile</th>-->
-      <!--              <th class="px-4 py-2">interview</th>-->
-      <!--              <th class="px-4 py-2">Update Status</th>-->
-      <!--            </tr>-->
-      <!--            </thead>-->
-      <!--            <tbody>-->
-      <!--            &lt;!&ndash; Loop through the talentPostCandidateList and render each candidate &ndash;&gt;-->
-      <!--            <tr th:each="post : ${talentPostCandidateList}">-->
-      <!--              <td class="px-4 py-2" th:text="${post.id}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.talent_name}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.username}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.name}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.age}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.apply_date}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.candidate_status}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.feedback}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.interview_date}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.interview_time}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.interview_status}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.interview_id}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.post_talent_id}"></td>-->
-      <!--              <td class="px-4 py-2" th:text="${post.user_profile_id}"></td>-->
-      <!--              <td class="px-4 py-2">-->
-      <!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Profile</a>-->
-      <!--              </td>-->
-      <!--              <td class="px-4 py-2">-->
-      <!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Interview</a>-->
-      <!--              </td>-->
-      <!--              <td class="px-4 py-2">-->
-      <!--                <a th:href="@{/talentPost-form/update/{id}(id=${post.id})}" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Update Status</a>-->
-      <!--              </td>-->
-      <!--            </tr>-->
-      <!--            </tbody>-->
-      <!--          </table>-->
-      <!--        </div>-->
-
-      <!-- Resource Requests Table -->
       <div class="bg-white rounded-lg border">
         <div class="p-4 border-b flex justify-between items-center">
           <h3 class="text-lg font-semibold">Your status</h3>
@@ -191,17 +138,111 @@
           <table class="w-full">
             <thead class="bg-gray-50 text-xs uppercase text-gray-500">
             <tr>
-              <th class="px-6 py-3 text-left tracking-wider">ID</th>
-              <th class="px-6 py-3 text-left tracking-wider">Talent Name</th>
-              <th class="px-6 py-3 text-left tracking-wider">Username</th>
-              <th class="px-6 py-3 text-left tracking-wider">Name</th>
-              <th class="px-6 py-3 text-left tracking-wider">Age</th>
-              <th class="px-6 py-3 text-left tracking-wider">Apply Date</th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=ptc.id&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.id' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  ID
+                  <span class="ml-1">▲▼</span>
+                </button>
+              </th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=pt.talent_name&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'pt.talent_name' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  TALENT NAME
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=up.username&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.username' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  USERNAME
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=up.name&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.name' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  NAME
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=up.age&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'up.age' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  AGE
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=ptc.apply_date&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.apply_date' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  APPLY DATE
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
               <th class="px-6 py-3 text-left tracking-wider">Interview Feedback</th>
-              <th class="px-6 py-3 text-left tracking-wider">Interview date</th>
-              <th class="px-6 py-3 text-left tracking-wider">Interview time</th>
-              <th class="px-6 py-3 text-left tracking-wider">Interview status</th>
-              <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=i.date&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.date' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  INTERVIEW DATE
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+<!--              <th class="px-6 py-3 text-left tracking-wider">Interview date</th>-->
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=i.time&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.time' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  INTERVIEW TIME
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+<!--              <th class="px-6 py-3 text-left tracking-wider">Interview time</th>-->
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=i.status&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'i.status' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  INTERVIEW STATUS
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+<!--              <th class="px-6 py-3 text-left tracking-wider">Interview status</th>-->
+              <th class="px-6 py-3 text-left tracking-wider">
+                <button
+                        onclick="window.location.href = '/dashboard/student/talentPostCandidate-list/sort?sortBy=ptc.candidate_status&sortOrder=' +
+             (new URLSearchParams(window.location.search).get('sortBy') === 'ptc.candidate_status' &&
+              new URLSearchParams(window.location.search).get('sortOrder') === 'asc' ? 'desc' : 'asc');"
+                        class="flex items-center">
+                  CANDIDATE STATUS
+                  <span  class="ml-1">▲▼</span>
+                </button>
+              </th>
+<!--              <th class="px-6 py-3 text-left tracking-wider">Candidate Status</th>-->
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -240,10 +281,26 @@
                 <div class="text-sm font-medium" th:text="${post.interview_time}">Interview Time</div>
               </td>
               <td class="px-6 py-4">
-                <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>
+                <!--                  <div class="text-sm font-medium" th:text="${post.interview_status}">Interview Status</div>-->
+                <span th:class="${post.interview_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.interview_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.interview_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                      th:text="${#strings.capitalize(#strings.toLowerCase(post.interview_status))}">
+                                                High
+                                            </span>
+
               </td>
               <td class="px-6 py-4">
-                <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>
+                <!--                  <div class="text-sm font-medium" th:text="${post.candidate_status}">Candidate Status</div>-->
+
+                <span th:class="${post.candidate_status == 'approved' ? 'mt-1 inline-flex px-2 text-sm font-semibold  rounded-full bg-green-100 text-green-800' :
+                                                   (post.candidate_status== 'pending' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800' :
+                                                   (post.candidate_status== 'rejected' ? 'mt-1 inline-flex px-2 text-sm font-semibold rounded-full bg-red-100 text-red-800' :
+                                                   'mt-1 inline-flex px-2 text-xs font-semibold rounded-full bg-gray-100 text-gray-800'))}"
+                      th:text="${#strings.capitalize(#strings.toLowerCase(post.candidate_status))}">
+                                                High
+                                            </span>
               </td>
             </tr>
             </tbody>
