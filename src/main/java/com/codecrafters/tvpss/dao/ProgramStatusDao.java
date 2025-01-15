@@ -1,6 +1,7 @@
 package com.codecrafters.tvpss.dao;
 
 import com.codecrafters.tvpss.model.ProgramStatusModel;
+import com.codecrafters.tvpss.model.ResourceRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,16 +17,23 @@ public class ProgramStatusDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public List<ProgramStatusModel> findByStatus(String status) {
+        String sql = "SELECT * FROM program_status WHERE LOWER(status) = ?";
+        return jdbcTemplate.query(sql, new ProgramStatusRowMapper(), status.toLowerCase());
+    }
+
     // Save a new program status
     public void save(ProgramStatusModel programStatus) {
-        String sql = "INSERT INTO program_status (school_code, school_name, version_criteria, youtube_link, version, created_at) " +
-                "VALUES (?, ?, ?::jsonb, ?, ?, ?)";
+        String sql = "INSERT INTO program_status (school_code, school_name, version_criteria, youtube_link, version, feedback, status, created_at) " +
+                "VALUES (?, ?, ?::jsonb, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 programStatus.getSchoolCode(),
                 programStatus.getSchoolName(),
                 programStatus.getVersionCriteria(), // JSONB field
                 programStatus.getYoutubeLink(),
                 programStatus.getVersion(),
+                programStatus.getFeedback(),
+                programStatus.getStatus(),
                 programStatus.getCreatedAt()
         );
     }
@@ -38,7 +46,7 @@ public class ProgramStatusDao {
 
     // Update an existing program status
     public void update(ProgramStatusModel programStatus) {
-        String sql = "UPDATE program_status SET school_code = ?, school_name = ?, version_criteria = ?::jsonb, youtube_link = ?, version = ?, created_at = ? " +
+        String sql = "UPDATE program_status SET school_code = ?, school_name = ?, version_criteria = ?::jsonb, youtube_link = ?, version = ?, feedback = ?, status = ?, created_at = ? " +
                 "WHERE id = ?";
         jdbcTemplate.update(sql,
                 programStatus.getSchoolCode(),
@@ -46,6 +54,8 @@ public class ProgramStatusDao {
                 programStatus.getVersionCriteria(), // JSONB field
                 programStatus.getYoutubeLink(),
                 programStatus.getVersion(),
+                programStatus.getFeedback(),
+                programStatus.getStatus(),
                 programStatus.getCreatedAt(),
                 programStatus.getId()
         );
@@ -72,8 +82,10 @@ public class ProgramStatusDao {
             programStatus.setSchoolCode(rs.getString("school_code"));
             programStatus.setSchoolName(rs.getString("school_name"));
             programStatus.setVersion(rs.getInt("version"));
-            programStatus.setVersionCriteria(rs.getString("version_criteria")); // JSONB as string
+            programStatus.setVersionCriteria(rs.getString("version_criteria"));
             programStatus.setYoutubeLink(rs.getString("youtube_link"));
+            programStatus.setFeedback(rs.getString("feedback"));
+            programStatus.setStatus(rs.getString("status"));
             programStatus.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
             return programStatus;
         }
