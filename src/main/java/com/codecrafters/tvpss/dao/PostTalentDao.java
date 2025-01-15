@@ -25,8 +25,24 @@ public class PostTalentDao {
         return jdbcTemplate.queryForObject(sql, new TalentPostRowMapper(), id);
     }
 
+    public TalentPostModel deleteById(int id) {
+        String sql = "DELETE FROM post_talent WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new TalentPostRowMapper(), id);
+    }
+
     public List<TalentPostModel> findAll() {
         String sql = "SELECT * FROM post_talent ORDER BY id ASC";
+        try {
+            return jdbcTemplate.query(sql, new TalentPostRowMapper());
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            // You can throw a custom exception or return an empty list, depending on your needs.
+        }
+        return List.of();
+    }
+
+    public List<TalentPostModel> findAllOpen() {
+        String sql = "SELECT * FROM post_talent WHERE status = 'open' ORDER BY id ASC";
         try {
             return jdbcTemplate.query(sql, new TalentPostRowMapper());
         } catch (Exception e) {
@@ -71,8 +87,74 @@ public class PostTalentDao {
         return List.of();
     }
 
+    public List<TalentPostCandidateModel> sortAllCandidateByUser( String sortBy, String sortOrder) {
+        // List of allowed columns to prevent SQL injection
+        List<String> allowedColumns = List.of("ptc.id", "pt.talent_name", "up.username", "up.name", "up.age", "ptc.apply_date",
+                "i.feedback", "i.date", "i.time", "i.status", "ptc.candidate_status");
+
+        // Default to apply_date if sortBy is invalid
+        if (!allowedColumns.contains(sortBy)) {
+            sortBy = "ptc.apply_date";
+        }
+
+        // Validate sortOrder (only allow ASC or DESC)
+        if (!"ASC".equalsIgnoreCase(sortOrder) && !"DESC".equalsIgnoreCase(sortOrder)) {
+            sortOrder = "DESC";
+        }
+
+        String sql = "SELECT ptc.id AS candidate_id, pt.talent_name, up.username, up.name, ptc.post_talent_id, " +
+                "ptc.user_profile_id, ptc.interview_id, up.age, ptc.apply_date, ptc.candidate_status, i.feedback, " +
+                "i.status AS interview_status, i.date AS interview_date, i.time AS interview_time " +
+                "FROM post_talent_candidate ptc " +
+                "JOIN post_talent pt ON ptc.post_talent_id = pt.id " +
+                "JOIN user_profile up ON ptc.user_profile_id = up.id " +
+                "LEFT JOIN interview i ON ptc.interview_id = i.id " +  // Changed to LEFT JOIN
+                "ORDER BY " + sortBy + " " + sortOrder;
+
+        try {
+            return jdbcTemplate.query(sql, new TalentPostCandidateRowMapper());
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            return List.of();
+        }
+    }
+
+
+    public List<TalentPostCandidateModel> sortCandidateByUserProfileId(int userProfileId, String sortBy, String sortOrder) {
+        // List of allowed columns to prevent SQL injection
+        List<String> allowedColumns = List.of("ptc.id", "pt.talent_name", "up.username", "up.name", "up.age", "ptc.apply_date",
+                "i.feedback", "i.date", "i.time", "i.status", "ptc.candidate_status");
+
+        // Default to apply_date if sortBy is invalid
+        if (!allowedColumns.contains(sortBy)) {
+            sortBy = "ptc.apply_date";
+        }
+
+        // Validate sortOrder (only allow ASC or DESC)
+        if (!"ASC".equalsIgnoreCase(sortOrder) && !"DESC".equalsIgnoreCase(sortOrder)) {
+            sortOrder = "DESC";
+        }
+
+        String sql = "SELECT ptc.id AS candidate_id, pt.talent_name, up.username, up.name, ptc.post_talent_id, " +
+                "ptc.user_profile_id, ptc.interview_id, up.age, ptc.apply_date, ptc.candidate_status, i.feedback, " +
+                "i.status AS interview_status, i.date AS interview_date, i.time AS interview_time " +
+                "FROM post_talent_candidate ptc " +
+                "JOIN post_talent pt ON ptc.post_talent_id = pt.id " +
+                "JOIN user_profile up ON ptc.user_profile_id = up.id " +
+                "LEFT JOIN interview i ON ptc.interview_id = i.id " +  // Changed to LEFT JOIN
+                "WHERE ptc.user_profile_id = ? " +
+                "ORDER BY " + sortBy + " " + sortOrder;
+
+        try {
+            return jdbcTemplate.query(sql, new TalentPostCandidateRowMapper(), userProfileId);
+        } catch (Exception e) {
+            logger.error("Error fetching post talent data: ", e);
+            return List.of();
+        }
+    }
+
     public List<TalentPostModel> findThreePost() {
-        String sql = "SELECT * FROM post_talent ORDER BY id ASC LIMIT 3";
+        String sql = "SELECT * FROM post_talent WHERE status = 'open' ORDER BY id ASC LIMIT 3";
         try {
             return jdbcTemplate.query(sql, new TalentPostRowMapper());
         } catch (Exception e) {
@@ -81,7 +163,6 @@ public class PostTalentDao {
         }
         return List.of();
     }
-
 
     public void save(TalentPostModel request) {
         String sql = "INSERT INTO post_talent (talent_name, description, due_date, status) " +

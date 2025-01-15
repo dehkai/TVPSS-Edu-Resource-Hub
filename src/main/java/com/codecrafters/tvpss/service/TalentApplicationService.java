@@ -30,8 +30,16 @@ public class TalentApplicationService {
             return postTalentDao.findById(Long.parseLong(id));
     }
 
+    public TalentPostModel deleteById(int id) {
+        return postTalentDao.deleteById(id);
+    }
+
     public List<TalentPostModel> getAllPostTalent() {
         return postTalentDao.findAll();
+    }
+
+    public List<TalentPostModel> getAllOpenPostTalent() {
+        return postTalentDao.findAllOpen();
     }
 
     public List<TalentPostCandidateModel> getAllPostTalentCandidate() {
@@ -41,6 +49,15 @@ public class TalentApplicationService {
     public List<TalentPostCandidateModel> getAllPostTalentCandidateByUserProfileId(int userProfileId) {
         return postTalentDao.findAllCandidateByUserProfileId(userProfileId);
     }
+
+    public List<TalentPostCandidateModel> sortCandidateByUserProfileId(int userProfileId, String sortBy, String sortOrder) {
+        return postTalentDao.sortCandidateByUserProfileId(userProfileId, sortBy, sortOrder);
+    }
+
+    public List<TalentPostCandidateModel> sortAllByUser( String sortBy, String sortOrder) {
+        return postTalentDao.sortAllCandidateByUser(sortBy, sortOrder);
+    }
+
 
     public List<TalentPostModel> getThreePostTalent() {
         return postTalentDao.findThreePost();

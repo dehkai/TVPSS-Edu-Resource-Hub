@@ -48,16 +48,21 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Status</label>
-                <select type="text" th:field="*{status}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black" required>
-                    <option value="pending">pending</option>
-                    <option value="approved">approved</option>
-                    <option value="rejected">rejected</option>
+                <select th:field="*{status}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                        required
+                        th:attr="disabled=${create == 'yes'}">
+                    <option value="pending" th:selected="${status == 'pending' or create == 'yes'}">pending</option>
+                    <option value="approved" th:selected="${status == 'approved'}">approved</option>
+                    <option value="rejected" th:selected="${status == 'rejected'}">rejected</option>
                 </select>
             </div>
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700">Feedback</label>
-            <textarea th:field="*{feedback}" rows="6" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black border border-black"></textarea>
+            <textarea th:field="*{feedback}" rows="6"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border border-black"
+                      th:attr="readonly=${create == 'yes'}"></textarea>
         </div>
         <div class="flex justify-end space-x-4">
             <button type="button" onclick="history.back()" class="bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300">Cancel</button>

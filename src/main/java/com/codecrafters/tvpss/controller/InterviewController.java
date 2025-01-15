@@ -16,10 +16,12 @@ public class InterviewController {
     private InterviewService interviewService;
 
     @GetMapping("/admin/interview/{id}")
-    public String showForm(Model model,@PathVariable String id) {
+    public String showForm(Model model,@PathVariable String id,
+                           @RequestParam(defaultValue = "no") String create) {
         int interviewId = Integer.parseInt(id);
         InterviewModel interviewModel = interviewService.getInterviewById(interviewId);
         model.addAttribute("interview", interviewModel);
+        model.addAttribute("create", create);
         return "/interview/interview-form";
     }
 
