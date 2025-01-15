@@ -6,10 +6,16 @@
     <title>Event Management Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 relative">
     <div class="container mx-auto px-4 py-6">
-        <div class="mb-6">
+        <div class="mb-6 flex justify-between items-center">
             <h1 class="text-xl font-semibold text-gray-800">Event Management Dashboard</h1>
+            <!-- Back to Dashboard Button -->
+            <button 
+                onclick="window.location.href='/dashboard/admin'"
+                class="bg-pink-100 text-black py-2 px-4  shadow-md hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Back to Dashboard
+            </button>
         </div>
 
         <div class="bg-white shadow rounded-lg p-6">
@@ -88,7 +94,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Fetch and populate events on page load
         document.addEventListener("DOMContentLoaded", async () => {
@@ -109,12 +114,7 @@
     event.preventDefault();
 
     const formData = new FormData(event.target);
-
-    // // Set default values for status, participantsCount, and rating if not provided
-    // if (!formData.get('status')) formData.append('status', 'Planned');
-    // if (!formData.get('participantsCount')) formData.append('participantsCount', 0);
-    // if (!formData.get('rating')) formData.append('rating', 0.0);
-
+    
     try {
         const response = await fetch('/save-event', {
             method: 'POST',
@@ -138,9 +138,6 @@
     window.location.href = `/event-activities/edit-event/${eventId}`;
 }
 
-
-
-    
         // Update event table dynamically
         function updateEventTable(events) {
             const tbody = document.querySelector("#eventTable");

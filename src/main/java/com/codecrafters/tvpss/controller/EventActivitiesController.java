@@ -82,6 +82,14 @@ public String showAllEventActivities(Model model) {
     return "event-activities/view-all";
 }
 
+@GetMapping("/dashboard/officer/event-activities/officer-event-report")
+public String showAllEventsPage(Model model) {
+    // Fetch all events and add them to the model
+    List<EventActivity> events = eventActivitiesService.getAllEventActivities();
+    model.addAttribute("events", events);
+    return "event-activities/officer-event-report";
+}
+
 
     @GetMapping("/event-activities/details/{eventId}")
     public String getEventDetails(@PathVariable Long eventId, Model model) {
