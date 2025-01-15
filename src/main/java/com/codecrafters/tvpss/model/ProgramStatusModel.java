@@ -29,6 +29,12 @@ public class ProgramStatusModel {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "feedback")
+    private String feedback;
+
+    @Column(name = "status")
+    private String status;
+
     // Getters and Setters
 
     public Long getId() {
@@ -85,6 +91,22 @@ public class ProgramStatusModel {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     // Transient fields for the checkboxes
