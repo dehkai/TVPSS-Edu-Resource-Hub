@@ -85,7 +85,7 @@ public class TalentApplicationController {
         List<TalentPostModel> talentPostList = applicationService.getAllPostTalent();
         System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
         model.addAttribute("talentPostList", talentPostList);
-        return "/talent-application/manage-talent-post";
+        return "talent-application/manage-talent-post";
     }
 
     @GetMapping("/talentPost-list/open")
@@ -94,7 +94,7 @@ public class TalentApplicationController {
         List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
         System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
         model.addAttribute("talentPostList", talentPostList);
-        return "/talent-application/manage-talent-post";
+        return "talent-application/manage-talent-post";
     }
 
     @GetMapping("/talentPostCandidate-list")
@@ -143,7 +143,7 @@ public class TalentApplicationController {
         model.addAttribute("currentSortOrder", sortOrder);
 
         // Return the view name (ensure this matches your view path)
-        return "/talent-application/talent-post-candidate-report";
+        return "talent-application/talent-post-candidate-report";
     }
 
     @GetMapping("/dashboard/student/talentPostCandidate-list")

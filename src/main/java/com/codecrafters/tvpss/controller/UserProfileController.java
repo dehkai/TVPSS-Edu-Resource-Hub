@@ -25,7 +25,7 @@ public class UserProfileController {
     public String showCandidateProfile(Model model, @PathVariable int id) {
         UserProfileModel userProfileModel = userProfileService.findById(id);
         model.addAttribute("userProfile", userProfileModel);
-        return "/user/user-profile";
+        return "user/user-profile";
     }
 
     @GetMapping("/student/profile")
@@ -34,7 +34,7 @@ public class UserProfileController {
         UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
         model.addAttribute("userProfile", userProfileModel);
         model.addAttribute("isStudent", true);
-        return "/user/user-profile";
+        return "user/user-profile";
     }
 
     @GetMapping("/student/profile/edit/{id}")
@@ -42,7 +42,7 @@ public class UserProfileController {
         UserProfileModel userProfileModel = userProfileService.findById(id);
         model.addAttribute("userProfile", userProfileModel);
 //        model.addAttribute("isStudent", true);
-        return "/user/edit-user-profile";
+        return "user/edit-user-profile";
     }
 
     @PostMapping("/submitUpdateUserProfile")
