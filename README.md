@@ -37,7 +37,7 @@ A comprehensive web-based platform for managing TV Pusat Sumber Sekolah (TVPSS) 
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/TVPSS-Edu-Resource-Hub.git
+git clone https://github.com/dehkai/TVPSS-Edu-Resource-Hub.git
 ```
 
 2. Navigate to the project directory
