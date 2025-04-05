@@ -1,6 +1,6 @@
 # TVPSS Educational Resource Hub
 
-A comprehensive web-based platform for managing Technical and Vocational Program Special Stream (TVPSS) resources in the Johor State Education Department. This system facilitates program status tracking, candidate management, and resource allocation for educational institutions.
+A comprehensive web-based platform for managing TV Pusat Sumber Sekolah (TVPSS) resources in the Johor State Education Department. This system facilitates program status tracking, candidate management, and resource allocation for educational institutions.
 
 ## Features
 
